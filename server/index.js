@@ -5,6 +5,8 @@ const userRoutes = require('./routes/userRoutes.js');
 const chatRoutes = require("./Routes/chatRoutes");
 const messageRoutes = require("./Routes/messageRoutes");
 const {notFound, errorHandler} = require("./middleware/errorMiddleware");
+const postRoutes = require("./Routes/postRoutes");
+
 const app = express();
 app.use(express.json());
 dotenv.config();
@@ -53,6 +55,7 @@ app.post('/laxme', (req, res) => {
 app.use("/user", userRoutes);
 app.use("/chat", chatRoutes);
 app.use("/message", messageRoutes);
+app.use("/feed", postRoutes);
 
 // Error Handling middlewares
 app.use(notFound);
