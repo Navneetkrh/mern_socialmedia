@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 // local storage
 
 
+// eslint-disable-next-line react/prop-types
 export const Login =({setisLogin})=> {
 
     const [backendData, setBackendData] = useState({}); 
@@ -46,6 +47,7 @@ export const Login =({setisLogin})=> {
                 // alert("Login successful");
                 console.log(response.data);
                   // navigate to home page
+                    localStorage.setItem('userdata', JSON.stringify(response.data));
                     navigate('/');
             } 
           
@@ -71,7 +73,8 @@ export const Login =({setisLogin})=> {
               <button type='submit' onClick={(e)=>handleSubmit(e)} className="w-80 h-10 px-5 py-1 my-5 text-xl text-white bg-green-500 hover:bg-green-300 border-2 border-[#1E1E1E] rounded-xl focus:outline-none focus:border-[#1E1E1E]">Login</button>
            </form>
            <div className='flex text-xl gap-3 my-3'>
-           <h1 className='text-white '>Don't have an account? </h1>
+        
+           <h1 className='text-white '> Don't have an account? </h1>
            <button type='submit' className='text-purple-500 ' onClick={()=>setisLogin(false)}> Signup</button>
            </div>
            
@@ -83,11 +86,13 @@ export const Login =({setisLogin})=> {
 
 } 
 
+// eslint-disable-next-line react/prop-types
 export const Signup =({setisLogin})=> {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');   
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    let navigate = useNavigate();
 
     const handleSubmit = async (e)=> {
                                                    
@@ -113,7 +118,9 @@ export const Signup =({setisLogin})=> {
                 console.log(response.data);
             } 
             else{
-                alert("Account created successfully");
+                // alert("Account created successfully");
+                localStorage.setItem('userdata', JSON.stringify(response.data));
+                navigate('/');
 
             } 
         }).catch((error)=>{

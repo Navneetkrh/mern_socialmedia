@@ -7,6 +7,8 @@ import profile from "./assets/profile.jpeg"
 import {Home} from "./pages/Home.jsx";
 import Loginsignup, {Login} from "./pages/Login.jsx";
 import { Mainlayout } from './pagelayout/mainlayout';
+import { Feed } from './pagelayout/Feed'
+
 import {RouterProvider,createBrowserRouter} from "react-router-dom";
 function App() {
 let router = createBrowserRouter([
@@ -19,7 +21,11 @@ let router = createBrowserRouter([
     path: '/',
     element: <Mainlayout />,
   },
-  
+  {
+    path: '/feed',
+    element: <Feed/>,
+  },
+
   {
     path: '*',
     element: <><h1>Not found</h1></>,
