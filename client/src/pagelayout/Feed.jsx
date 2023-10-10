@@ -5,18 +5,55 @@ import profile from "../assets/profile.jpeg"
 import Topbar from '../components/feed/Topbar';
 import Rightbar from '../components/feed/rightbar';
 
-import logo from "../assets/insidelogo.png"
+import logo from "../assets/insidelogo.png";
+import Post from '../components/feed/post';
+import axios from 'axios';
+
 
 
 export function Feedpage() {
+    // let numberofposts = 10;
+    // let posts = [];
+    // for(let i=0;i<numberofposts;i++){
+    //     posts.push(<Post postedby={"user1"} title={"title1"} text={"text1"} photo={"photo1"} likes={"likes1"} comments={"comments1"} shares={"shares1"}/>);
+    // }
+
+    const [posts, setposts] = useState([]);
+    // fetch all posts
+    const config={
+          
+        headers:{
+            'Content-Type': 'application/json',
+            
+        },
+
+    };
+      
+    axios.get("/api/feed/fetchPost",config).then((response)=>{
+        console.log(response.data);
+        setposts(response.data.map((post)=>{
+            return <Post postedby={post.postedby.name} title={post.title} text={post.text} photo={post.photo} likes={post.likes} comments={post.comments} shares={post.shares}/>
+        }));
+    }).catch((error)=>{
+            console.log(error);
+            console.log(error.response);
+            // setMessage(error.response.data.message);
+            // alert(error.response.data.message);
+        
+        } );
+
   return (
     <div className={"flex flex-col   bg-[#1e1e1e] text-center "}>
     <div className={"flex flex-row justify-center"}>
                             <img className={"w-1/6 h-1/6 -my-10"} src={logo}/>
     </div>
-    <Topbar/>
-       <div className='h-screen'>
 
+
+    <Topbar/>
+
+    {/* main area */}
+       <div className='flex flex-col h-full w-full items-center'>
+              {posts}
        </div>
            
     </div>
