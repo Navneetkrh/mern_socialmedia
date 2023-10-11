@@ -6,6 +6,7 @@ import profile from "../../assets/profile.jpeg"
 import { useState} from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+// import {CameraOutlined } from '@ant-design/icons'; 
 
 
 export  function Createpost() {
@@ -88,6 +89,36 @@ export function Createpostpage({userdata}){
         navigate('/feed');
     }
 
+    // const convertToBase64 = (file) => {
+    //     return new Promise((resolve, reject) => {
+    //       const fileReader = new FileReader();
+    //       fileReader.readAsDataURL(file);
+    //       fileReader.onload = () => {
+    //         resolve(fileReader.result);
+    //       };
+    //       fileReader.onerror = (error) => {
+    //         reject(error);
+    //       };
+    //     });
+    //   };
+    //   const handleFileUpload = async (e) => {
+    //     const file = e.target.files[0];
+    //     const base64 = await convertToBase64(file);
+    //     setPostImage({ ...postImage, myFile: base64 });
+    //   };
+    const handleimage=(e)=>{
+        const file=e.target.files[0];
+        setFileToBase(file);
+        console.log(file);
+    }
+    const setFileToBase=(file)=>{
+        const reader=new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload=()=>{
+            setPostdata({...postdata,photo:reader.result});
+        }
+    }
+
 
     return(
 
@@ -96,7 +127,11 @@ export function Createpostpage({userdata}){
            
            <input type='text' placeholder='Enter Title' className="w-3/4 h-10 px-5 py-1 my-5 text-xl text-white bg-[#1E1E1E] border-2 border-[#1E1E1E] rounded-xl focus:outline-none focus:border-[#1E1E1E]" onChange={(e) => setPostdata({...postdata,title:e.target.value})} />
             <input type='text' placeholder='Text' className="w-3/4 h-10 px-5 py-1 my-5 text-xl text-white bg-[#1E1E1E] border-2 border-[#1E1E1E] rounded-xl focus:outline-none focus:border-[#1E1E1E]" onChange={(e) => setPostdata({...postdata,text:e.target.value})} />
-            <input type='text' placeholder='Photo' className="w-3/4 h-10 px-5 py-1 my-5 text-xl text-white bg-[#1E1E1E] border-2 border-[#1E1E1E] rounded-xl focus:outline-none focus:border-[#1E1E1E]" onChange={(e) => setPostdata({...postdata,photo:e.target.value})} />
+            {/* <label className="w-1/4 h-10 px-5 py-1 my-5 text-xl text-white bg-red-500 hover:bg-red-300 border-2 border-[#1E1E1E] rounded-xl"> */}
+                Upload Photo
+            <input type='file' accept='image/*' placeholder='Photo'  className="w-3/4 h-10 px-5 py-1 my-5 text-xl text-white bg-[#1E1E1E] border-2 border-[#1E1E1E] rounded-xl focus:outline-none focus:border-[#1E1E1E]" onChange={(e)=> handleimage(e)} />
+            {/* </label> */}
+            
             
             {/* two buttons post and cancel */}
             <div className='flex flex-row justify-evenly w-3/4'>

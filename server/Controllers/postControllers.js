@@ -2,18 +2,39 @@ const express = require("express");
 const postModal = require("../models/postModel");
 const expressAsyncHandler = require('express-async-handler');
 const {response} = require("express");
+const cloudinary = require("../Config/cloudinary");
 
 
 
 const createPost = expressAsyncHandler(async (req, res) => {
+
     const {postedby,title,text,photo} = req.body;
     if (!postedby || !title || !text) {
         return res.status(400).json({message:"All fields are required"});
     }
     const post = {postedby,title,text,photo};
+    // console.log(post);
+
     //we have to get usename and profile pic from user model and send it with response
     try {
-        const newPost = await postModal.create(post);
+        const result= await cloudinary.uploader.upload(photo,{
+            folder:"posts",
+            // width:500,
+            // crop:"scale"
+        });
+        console.log(result);
+        
+        const newPost = await postModal.create(
+            {
+                postedby:postedby,
+                title:title,
+                text:text,
+                photo:{
+                    public_id:result.public_id,
+                    url:result.secure_url,
+                }
+            }
+        );
         
         // post = await post.populate("postedby");
         res.json(post);

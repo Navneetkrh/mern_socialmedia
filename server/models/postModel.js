@@ -25,9 +25,21 @@ const postModal = mongoose.Schema({
     },
     photo: {
 
-        type: String,
+        public_id: {
 
-        required: false,
+            type: String,
+
+            required:true,
+
+        },
+        url: {
+
+            type: String,
+
+            required:true,
+
+        },
+        
 
     },
     likes: {
