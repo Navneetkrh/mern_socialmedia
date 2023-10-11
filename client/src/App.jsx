@@ -8,6 +8,7 @@ import {Home} from "./pages/Home.jsx";
 import Loginsignup, {Login} from "./pages/Login.jsx";
 import { Mainlayout } from './pagelayout/mainlayout';
 import { Feed } from './pagelayout/Feed'
+import { Createpost } from './components/feed/Createpost';
 
 import {RouterProvider,createBrowserRouter} from "react-router-dom";
 function App() {
@@ -25,6 +26,11 @@ let router = createBrowserRouter([
     path: '/feed',
     element: <Feed/>,
   },
+  {
+    path: '/createpost',
+    element: <Createpost/>,
+
+  },
 
   {
     path: '*',
@@ -33,7 +39,7 @@ let router = createBrowserRouter([
 ])
 
   return (
-    <div>
+    <div >
       <RouterProvider router={router} />
     </div>
   )

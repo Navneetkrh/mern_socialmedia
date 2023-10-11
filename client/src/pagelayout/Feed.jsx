@@ -17,7 +17,7 @@ export function Feedpage() {
     // for(let i=0;i<numberofposts;i++){
     //     posts.push(<Post postedby={"user1"} title={"title1"} text={"text1"} photo={"photo1"} likes={"likes1"} comments={"comments1"} shares={"shares1"}/>);
     // }
-
+    
     const [posts, setposts] = useState([]);
     // fetch all posts
     const config={
@@ -44,7 +44,7 @@ export function Feedpage() {
 
   return (
     <div className={"flex flex-col   bg-[#1e1e1e] text-center "}>
-    <div className={"flex flex-row justify-center"}>
+    <div className={"flex flex-row justify-center bg-bakc"}>
                             <img className={"w-1/6 h-1/6 -my-10"} src={logo}/>
     </div>
 
@@ -52,7 +52,7 @@ export function Feedpage() {
     <Topbar/>
 
     {/* main area */}
-       <div className='flex flex-col h-full w-full items-center'>
+       <div className='flex flex-col h-full w-full items-center bg-blackish'>
               {posts}
        </div>
            
@@ -78,8 +78,9 @@ export function Feed() {
                 
                 <Sidebar image={profile} name={(!userdata)? "please login":userdata.name }/>
           </aside>
-          <main className="flex-1 ml-56 mr-56">
+          <main className="flex-1 ml-56 mr-56 bg-blackish h-screen">
               <Feedpage/>
+             
 
           </main>
           <aside className="w-56 fixed right-0 top-0 pb-10 h-screen bg-[#1E1E1E]">

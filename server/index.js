@@ -1,11 +1,12 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const {default: mongoose} = require('mongoose');
-const userRoutes = require('./routes/userRoutes.js');
+const userRoutes = require('./Routes/userRoutes.js');
 const chatRoutes = require("./Routes/chatRoutes");
 const messageRoutes = require("./Routes/messageRoutes");
 const {notFound, errorHandler} = require("./middleware/errorMiddleware");
 const postRoutes = require("./Routes/postRoutes");
+// const uploadimage = require('./Config/uploadimage.js');
 
 const app = express();
 app.use(express.json());
@@ -50,7 +51,15 @@ connectDb();
 app.post('/laxme', (req, res) => {
     res.json(req.body);
 });
-
+// app.post("/uploadimage", (req, res) => {
+//     uploadimage(req.body.image).then((result) => {
+//         res.status(200).json({message: "Image uploaded successfully", url: result});
+//     }).catch((error) => {
+//             res.status(400).json({message: error.message});
+//         }
+//     );
+// }
+// );
 
 app.use("/user", userRoutes);
 app.use("/chat", chatRoutes);
