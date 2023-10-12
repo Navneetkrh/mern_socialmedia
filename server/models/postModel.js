@@ -20,7 +20,7 @@ const postModal = mongoose.Schema({
 
         type: String,
 
-        required: true,
+        
 
     },
     photo: {
@@ -29,14 +29,14 @@ const postModal = mongoose.Schema({
 
             type: String,
 
-            required:true,
+           
 
         },
         url: {
 
             type: String,
 
-            required:true,
+           
 
         },
         

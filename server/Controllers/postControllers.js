@@ -9,7 +9,7 @@ const cloudinary = require("../Config/cloudinary");
 const createPost = expressAsyncHandler(async (req, res) => {
 
     const {postedby,title,text,photo} = req.body;
-    if (!postedby || !title || !text) {
+    if (!postedby || !title || !(text || photo)) {
         return res.status(400).json({message:"All fields are required"});
     }
     const post = {postedby,title,text,photo};

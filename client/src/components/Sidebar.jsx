@@ -1,6 +1,15 @@
-export function Sidebar(props) {
-    return (
+import React from "react";
+import {Link,NavLink} from "react-router-dom";
 
+
+export function Sidebar(props) {
+    
+        
+        
+    // }
+
+    return (
+            
             <nav className={" flex flex-col rounded-2xl bg-[#2E2F31] w-48  h-full pt-10 mb-10 m-5 "}>
                 <div className={"flex-col"}>
 
@@ -13,12 +22,16 @@ export function Sidebar(props) {
 
                 <ul className={" flex flex-col justify-evenly text-gray-400 h-full font-bold text-center"}>
 
-                    <li className={"text-white"}>Home</li>
-                    <li className={"hover:text-white"}>Events</li>
-                    <li className={"hover:text-white"}>Chat Room</li>
-                    <li className={"hover:text-white"}>Updates</li>
-                    <li className={"hover:text-white"}>Forums</li>
-                    <li className={"hover:text-white"}>Achievements</li>
+                    <NavLink className="text-gray-400 aria-[current=page]:text-white" to="/">Home</NavLink>
+                    <NavLink className="text-gray-400 aria-[current=page]:text-white" to="/feed">Feed</NavLink>
+                    
+                    <NavLink className="text-gray-400 aria-[current=page]:text-white" to="/chat">Chat</NavLink>
+                    <NavLink className="text-gray-400 aria-[current=page]:text-white" to="/updates">Updates</NavLink>
+                   
+                   
+                    <NavLink className="text-gray-400 aria-[current=page]:text-white" to="/forums">Fourms</NavLink>
+                    <NavLink className="text-gray-400 aria-[current=page]:text-white" to="/achievements">Achievements</NavLink>
+               
 
                 </ul>
             </nav>

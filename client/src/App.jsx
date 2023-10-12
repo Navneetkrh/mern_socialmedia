@@ -24,7 +24,7 @@ let router = createBrowserRouter([
   },
   {
     path: '/feed',
-    element: <Feed/>,
+    element: <Feed refresh/>,
   },
   {
     path: '/createpost',

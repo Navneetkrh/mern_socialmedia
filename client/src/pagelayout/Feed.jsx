@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Sidebar } from "../components/Sidebar";
 import profile from "../assets/profile.jpeg"
 import Topbar from '../components/feed/Topbar';
@@ -12,13 +12,20 @@ import axios from 'axios';
 
 
 export function Feedpage() {
-    // let numberofposts = 10;
-    // let posts = [];
-    // for(let i=0;i<numberofposts;i++){
-    //     posts.push(<Post postedby={"user1"} title={"title1"} text={"text1"} photo={"photo1"} likes={"likes1"} comments={"comments1"} shares={"shares1"}/>);
-    // }
+    // call refreshfeed every time page opens
+    
+    
+    console.log("refreshed");
+    
+   
+    
+   
     
     const [posts, setposts] = useState([]);
+    
+    
+  
+
     // fetch all posts
     const config={
           
@@ -28,12 +35,14 @@ export function Feedpage() {
         },
 
     };
-      
-    axios.get("/api/feed/fetchPost",config).then((response)=>{
+    const postfetcher=()=>{axios.get("/api/feed/fetchPost",config).then((response)=>{
         console.log(response.data);
         setposts(response.data.map((post)=>{
             return <Post postedby={post.postedby.name} title={post.title} text={post.text} photo={post.photo} likes={post.likes} comments={post.comments} shares={post.shares}/>
-        }));
+            
+        }).reverse());
+        
+        
     }).catch((error)=>{
             console.log(error);
             console.log(error.response);
@@ -41,6 +50,18 @@ export function Feedpage() {
             // alert(error.response.data.message);
         
         } );
+    }
+    useEffect(() => {
+      
+    
+        postfetcher();
+        
+        const interval = setInterval(() => {
+            postfetcher();
+          },30*1000);//page refreshes every 30 seconds
+          return () => clearInterval(interval);
+      
+    }, [])
 
   return (
     <div className={"flex flex-col   bg-[#1e1e1e] text-center "}>
@@ -48,7 +69,7 @@ export function Feedpage() {
                             <img className={"w-1/6 h-1/6 -my-10"} src={logo}/>
     </div>
 
-
+    
     <Topbar/>
 
     {/* main area */}
