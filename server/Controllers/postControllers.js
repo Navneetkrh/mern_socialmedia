@@ -17,22 +17,27 @@ const createPost = expressAsyncHandler(async (req, res) => {
 
     //we have to get usename and profile pic from user model and send it with response
     try {
-        const result= await cloudinary.uploader.upload(photo,{
-            folder:"posts",
-            // width:500,
-            // crop:"scale"
-        });
-        console.log(result);
+        // const result= await cloudinary.uploader.upload(photo,{
+        //     folder:"posts",
+        //     // width:500,
+        //     // crop:"scale"
+        // });
+        // console.log(result);
         
         const newPost = await postModal.create(
             {
                 postedby:postedby,
                 title:title,
                 text:text,
+                // photo:{
+                //     public_id:result.public_id,
+                //     url:result.secure_url,
+                // }
                 photo:{
-                    public_id:result.public_id,
-                    url:result.secure_url,
-                }
+                    public_id:photo.public_id,
+                    url:photo.url,
+
+                },
             }
         );
         

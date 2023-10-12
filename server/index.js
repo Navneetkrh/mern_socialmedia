@@ -7,9 +7,16 @@ const messageRoutes = require("./Routes/messageRoutes");
 const {notFound, errorHandler} = require("./middleware/errorMiddleware");
 const postRoutes = require("./Routes/postRoutes");
 // const uploadimage = require('./Config/uploadimage.js');
+const cloudinary = require("./Config/cloudinary.js");
+const expressAsyncHandler = require('express-async-handler');
+const bodyParser = require('body-parser');
+
 
 const app = express();
-app.use(express.json());
+// app.use(express.json());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+app.use(express.json({ limit: "50mb" }));
 dotenv.config();
 const cors = require('cors');
 app.use(
@@ -51,15 +58,27 @@ connectDb();
 app.post('/laxme', (req, res) => {
     res.json(req.body);
 });
-// app.post("/uploadimage", (req, res) => {
-//     uploadimage(req.body.image).then((result) => {
-//         res.status(200).json({message: "Image uploaded successfully", url: result});
-//     }).catch((error) => {
-//             res.status(400).json({message: error.message});
-//         }
-//     );
-// }
-// );
+app.post("/uploadimage", expressAsyncHandler(async(req, res) => {
+    const {photo} = req.body;
+    const result= await cloudinary.uploader.upload(photo,{
+        folder:"posts",
+        // width:500,
+        // crop:"scale"
+    });
+    console.log(result);
+    try{
+        res.json({public_id:result.public_id,
+            url:result.secure_url});
+    }
+    catch(error){
+        res.status(400).json({message:error.message});
+
+    }
+    // res.json({message:"hello",merbody:req.body});
+    
+    
+})
+);
 
 app.use("/user", userRoutes);
 app.use("/chat", chatRoutes);

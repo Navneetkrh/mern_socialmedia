@@ -40,7 +40,9 @@ export  function Createpost() {
 export function Createpostpage({userdata}){
     const [postdata, setPostdata] = useState({});
     // navigator
+
     let navigate = useNavigate();
+    const [postImage, setPostImage] = useState({});
 
     function sendpost(e){
         e.preventDefault();
@@ -49,7 +51,10 @@ export function Createpostpage({userdata}){
             postedby:userdata._id,
             title:postdata.title,
             text:postdata.text,
-            photo:postdata.photo
+            photo:{
+                public_id:postImage.public_id,
+                url:postImage.url,
+            }
         };
         const config={
            
@@ -62,7 +67,10 @@ export function Createpostpage({userdata}){
         };
           
         axios.post("/api/feed/createPost",mydata,config).then((response)=>{
+
             console.log(response.data);
+
+
             if(response.data.message){
                 alert(response.data.message);
             } 
@@ -114,10 +122,72 @@ export function Createpostpage({userdata}){
     const setFileToBase=(file)=>{
         const reader=new FileReader();
         reader.readAsDataURL(file);
+
+        const config={
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+userdata.token+''
+                
+            },
+        };
+        // get url
+        // reader.onload=()=>{
+        //     setPostdata({...postdata,photo:reader.result});
+        // }
+        // upload to cloudinary and get url 
+       
+        // axios.post("/api/uploadimage",{photo:reader.result},config).then((response)=>{
+        //     console.log(response.data);
+        //     if(response.data.message){
+        //         alert(response.data.message);
+        //     } 
+        //     else{
+        //         // alert("Login successful");
+        //         console.log(response.data);
+        //           // navigate to feed page
+
+        //           setPostImage(response.data);
+
+        //     } 
+          
+        
+        // }).catch((error)=>{
+        //         console.log(error);
+        //         console.log(error.response);
+        //         // setMessage(error.response.data.message);
+        //         // alert(error.response.data.message);
+            
+        //     } );
         reader.onload=()=>{
-            setPostdata({...postdata,photo:reader.result});
+            // upload to cloudinary and get url 
+
+       
+        axios.post("/api/uploadimage",{photo:reader.result},config).then((response)=>{
+            console.log(response.data);
+            if(response.data.message){
+                alert(response.data.message);
+            } 
+            else{
+                // alert("Login successful");
+                console.log(response.data);
+                  // navigate to feed page
+
+                  setPostImage(response.data);
+
+            } 
+          
+        
+        }).catch((error)=>{
+                console.log(error);
+                console.log(error.response);
+                // setMessage(error.response.data.message);
+                // alert(error.response.data.message);
+            
+            } );
+
         }
     }
+    
 
 
     return(
@@ -127,10 +197,14 @@ export function Createpostpage({userdata}){
            
            <input type='text' placeholder='Enter Title' className="w-3/4 h-10 px-5 py-1 my-5 text-xl text-white bg-[#1E1E1E] border-2 border-[#1E1E1E] rounded-xl focus:outline-none focus:border-[#1E1E1E]" onChange={(e) => setPostdata({...postdata,title:e.target.value})} />
             <input type='text' placeholder='Text' className="w-3/4 h-10 px-5 py-1 my-5 text-xl text-white bg-[#1E1E1E] border-2 border-[#1E1E1E] rounded-xl focus:outline-none focus:border-[#1E1E1E]" onChange={(e) => setPostdata({...postdata,text:e.target.value})} />
-            {/* <label className="w-1/4 h-10 px-5 py-1 my-5 text-xl text-white bg-red-500 hover:bg-red-300 border-2 border-[#1E1E1E] rounded-xl"> */}
+            <label className="w-1/4 h-10 px-5 py-1 my-5 text-xl text-white bg-red-500 hover:bg-red-300 border-2 border-[#1E1E1E] rounded-xl">
                 Upload Photo
-            <input type='file' accept='image/*' placeholder='Photo'  className="w-3/4 h-10 px-5 py-1 my-5 text-xl text-white bg-[#1E1E1E] border-2 border-[#1E1E1E] rounded-xl focus:outline-none focus:border-[#1E1E1E]" onChange={(e)=> handleimage(e)} />
-            {/* </label> */}
+                {
+                    postImage.url && <img src={postImage.url } alt="" />
+                }
+                {/* <img src={postImage.url } alt="" /> */}
+            <input type='file' accept='image/*' hidden placeholder='Photo'  className="w-3/4 h-10 px-5 py-1 my-5 text-xl text-white bg-[#1E1E1E] border-2 border-[#1E1E1E] rounded-xl focus:outline-none focus:border-[#1E1E1E]" onChange={(e)=> handleimage(e)} />
+            </label>
             
             
             {/* two buttons post and cancel */}
