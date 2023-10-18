@@ -42,7 +42,7 @@ export function Feedpage() {
             
         }).reverse());
         
-        
+         
     }).catch((error)=>{
             console.log(error);
             console.log(error.response);

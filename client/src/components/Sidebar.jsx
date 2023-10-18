@@ -22,15 +22,15 @@ export function Sidebar(props) {
 
                 <ul className={" flex flex-col justify-evenly text-gray-400 h-full font-bold text-center"}>
 
-                    <NavLink className="text-gray-400 aria-[current=page]:text-white" to="/">Home</NavLink>
-                    <NavLink className="text-gray-400 aria-[current=page]:text-white" to="/feed">Feed</NavLink>
+                    <NavLink className="text-gray-400 aria-[current=page]:text-white hover:text-greenish" to="/">Home</NavLink>
+                    <NavLink className="text-gray-400 aria-[current=page]:text-white hover:text-greenish" to="/feed">Feed</NavLink>
                     
-                    <NavLink className="text-gray-400 aria-[current=page]:text-white" to="/chat">Chat</NavLink>
-                    <NavLink className="text-gray-400 aria-[current=page]:text-white" to="/updates">Updates</NavLink>
+                    <NavLink className="text-gray-400 aria-[current=page]:text-white hover:text-greenish" to="/chat">Chat</NavLink>
+                    <NavLink className="text-gray-400 aria-[current=page]:text-white hover:text-greenish" to="/updates">Updates</NavLink>
                    
                    
-                    <NavLink className="text-gray-400 aria-[current=page]:text-white" to="/forums">Fourms</NavLink>
-                    <NavLink className="text-gray-400 aria-[current=page]:text-white" to="/achievements">Achievements</NavLink>
+                    <NavLink className="text-gray-400 aria-[current=page]:text-white hover:text-greenish" to="/forums">Fourms</NavLink>
+                    <NavLink className="text-gray-400 aria-[current=page]:text-white hover:text-greenish" to="/achievements">Achievements</NavLink>
                
 
                 </ul>

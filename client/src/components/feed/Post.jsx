@@ -15,7 +15,8 @@ export default function Post({postedby,title,text,photo,likes,comments,shares}) 
        
         
         <text className={" text-xl  text-white font-semibold text-left mx-16 mb-4"}>{title}</text>
-        <img src={photo.url} alt={"postimage"} className={"h-96  rounded-xl mx-4"}/>
+
+       {photo &&<img src={photo.url} alt={"postimage"} className={"h-96  rounded-xl mx-4"}/>} 
         
         <text className={" text-base  text-gray-300 text-left mx-8 my-4"}>{text}</text>
 
