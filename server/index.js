@@ -4,6 +4,7 @@ const {default: mongoose} = require('mongoose');
 const userRoutes = require('./Routes/userRoutes.js');
 const chatRoutes = require("./Routes/chatRoutes");
 const messageRoutes = require("./Routes/messageRoutes");
+const commentRoutes = require("./Routes/commentRoutes");
 const {notFound, errorHandler} = require("./middleware/errorMiddleware");
 const postRoutes = require("./Routes/postRoutes");
 // const uploadimage = require('./Config/uploadimage.js');
@@ -84,7 +85,7 @@ app.use("/user", userRoutes);
 app.use("/chat", chatRoutes);
 app.use("/message", messageRoutes);
 app.use("/feed", postRoutes);
-
+app.use("/comment", commentRoutes);
 // Error Handling middlewares
 app.use(notFound);
 app.use(errorHandler);

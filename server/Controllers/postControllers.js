@@ -1,8 +1,10 @@
 const express = require("express");
-const postModal = require("../models/postModel");
+
 const expressAsyncHandler = require('express-async-handler');
 const {response} = require("express");
 const cloudinary = require("../Config/cloudinary");
+const postModal = require("../Models/postModel");
+const commentsectionModel = require("../Models/commentSectionModel");
 
 
 
@@ -41,7 +43,15 @@ const createPost = expressAsyncHandler(async (req, res) => {
                 },
             }
         );
-        
+        console.log("POSTIDS" , newPost._id);
+
+        const newCommentSection = await commentsectionModel.create(
+            {
+                postid:newPost._id,
+                comments:[],
+
+            }
+        );
         // post = await post.populate("postedby");
         res.json(post);
 
