@@ -1,13 +1,20 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
-export default function Post({username,userphoto,title,text,photo,likes,comments,shares}) {
+export default function Post({id,username,userphoto,title,text,photo,likes,comments,shares}) {
   // get image from cloudinary photo.url
+    let navigate = useNavigate();
+    function openpost(e){
+        e.preventDefault();
+        navigate("/postopen",{state:{id,username,userphoto,title,text,photo,likes,comments,shares}});
+    }
 
 
   return (
-    <div className={" h-1/2 w-3/4 flex flex-col bg-blackish my-4 mx-10 rounded-xl hover:bg-grayish"}>
+    <div onClick={(e)=>openpost(e)} className={" h-1/2 w-3/4 flex flex-col bg-blackish my-4 mx-10 rounded-xl hover:bg-grayish"}>
          
         <div className={"flex flex-row justify-left mt-2 h-8"}>
+
             {  !userphoto &&     <img src={"https://via.placeholder.com/350x150"} alt={"profile"} className={"h-8 w-8 mx-4 rounded-full"}/>}
             {userphoto &&<img src={userphoto.url} alt={"profile"} className={"h-8 w-8 mx-4 rounded-full"}/>}
         <text className={" text-xl  text-greenish font-semibold "}>@{username}</text>
@@ -17,7 +24,9 @@ export default function Post({username,userphoto,title,text,photo,likes,comments
         
         <text className={" text-xl  text-white font-semibold text-left mx-16 mb-4"}>{title}</text>
 
-       {photo &&<img src={photo.url} alt={"postimage"} className={"h-96  rounded-xl mx-4"}/>} 
+            {photo &&<div className={"h-96  rounded-xl mx-4 justify-center flex bg-black"}><img src={photo.url} alt={"postimage"} className={"h-96   "}/></div>}
+
+
         
         <text className={" text-base  text-gray-300 text-left mx-8 my-4"}>{text}</text>
 

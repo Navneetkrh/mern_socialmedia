@@ -12,7 +12,7 @@ const fetchComments = expressAsyncHandler(async (req,res)=>{
    //  res.json({message:"Hello World"});
    try{
          const {postid} = req.body;
-         const comments = await commentsectionModel.findOne({postid:postid});
+         const comments = await commentsectionModel.findOne({postid:postid}).populate("comments.postedby");
          // return response sectionid,comments
             res.json({sectionid:comments._id,comments:comments.comments});
 

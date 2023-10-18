@@ -66,7 +66,7 @@ const fetchPost = expressAsyncHandler(async (req, res) => {
     try {
         const posts = await postModal.find({}).populate("postedby");
         res.json(posts);
-        // console.log(posts);
+        console.log(posts);
     } catch (error) {
         res.status(400).json({message:error.message});
     }

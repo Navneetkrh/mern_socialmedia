@@ -9,6 +9,7 @@ import Loginsignup, {Login} from "./pages/Login.jsx";
 import { Mainlayout } from './pagelayout/mainlayout';
 import { Feed } from './pagelayout/Feed'
 import { Createpost } from './components/feed/Createpost';
+import {PostOpen} from "./components/feed/PostOpen.jsx";
 
 import {RouterProvider,createBrowserRouter} from "react-router-dom";
 function App() {
@@ -31,7 +32,11 @@ let router = createBrowserRouter([
     element: <Createpost/>,
 
   },
+  {
+    path: '/postopen',
+    element: <PostOpen/>,
 
+  },
   {
     path: '*',
     element: <><h1>Not found</h1></>,

@@ -38,7 +38,7 @@ export function Feedpage() {
     const postfetcher=()=>{axios.get("/api/feed/fetchPost",config).then((response)=>{
         console.log(response.data);
         setposts(response.data.map((post)=>{
-            return <Post username={post.postedby.name} userphoto={post.postedby.photo} title={post.title} text={post.text} photo={post.photo} likes={post.likes} comments={post.comments} shares={post.shares}/>
+            return <Post id={post._id} username={post.postedby.name} userphoto={post.postedby.photo} title={post.title} text={post.text} photo={post.photo} likes={post.likes} comments={post.comments} shares={post.shares}/>
             
         }).reverse());
         
