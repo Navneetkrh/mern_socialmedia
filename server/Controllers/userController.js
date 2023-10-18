@@ -14,7 +14,7 @@ const loginController=expressAsyncHandler(async (req,res)=>{
                 _id:user._id,
                 name:user.name,
                 email:user.email,
-                profilePic:user.profilePic,
+                photo:user.photo,
                 isAdmin:user.isAdmin,
                 token: generateToken(user._id),
             });
@@ -26,7 +26,7 @@ const loginController=expressAsyncHandler(async (req,res)=>{
         }
 });
 const registerController=expressAsyncHandler (async (req,res)=>{
-    const {name,email,password,profilePic}=req.body;
+    const {name,email,password,photo}=req.body;
     //check if all fields are filled
     if(!name || !email || !password ){
         return res.status(400).json({message:"All fields are required"});
@@ -45,13 +45,13 @@ const registerController=expressAsyncHandler (async (req,res)=>{
 
     }
     //create user
-    const user = await UserModel.create({name,email,password,profilePic});
+    const user = await UserModel.create({name,email,password,photo});
     if(user){
         res.status(201).json({
             _id:user._id,
             name:user.name,
             email:user.email,
-            profilePic:user.profilePic,
+            photo:  user.photo,
             isAdmin:user.isAdmin,
             token: generateToken(user._id),
         });

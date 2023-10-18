@@ -13,6 +13,7 @@ const createPost = expressAsyncHandler(async (req, res) => {
         return res.status(400).json({message:"All fields are required"});
     }
     const post = {postedby,title,text,photo};
+
     // console.log(post);
 
     //we have to get usename and profile pic from user model and send it with response
@@ -55,6 +56,7 @@ const fetchPost = expressAsyncHandler(async (req, res) => {
     try {
         const posts = await postModal.find({}).populate("postedby");
         res.json(posts);
+        // console.log(posts);
     } catch (error) {
         res.status(400).json({message:error.message});
     }

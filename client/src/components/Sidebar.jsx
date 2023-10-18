@@ -4,18 +4,18 @@ import {Link,NavLink} from "react-router-dom";
 
 export function Sidebar(props) {
     
-        
-        
-    // }
 
+    const userdata = JSON.parse(localStorage.getItem('userdata'));
+    // }
+    console.log(userdata)
     return (
             
             <nav className={" flex flex-col rounded-2xl bg-[#2E2F31] w-48  h-full pt-10 mb-10 m-5 "}>
                 <div className={"flex-col"}>
 
-                        <img src={props.image} alt={"logo"} className={"w-20 h-24 rounded-full mx-auto"}/>
+                        <img src={userdata.photo.url} alt={"logo"} className={"w-20 h-24 rounded-full mx-auto"}/>
                         <h1 className={"text-white text-center text-2xl font-bold"}>Welcome</h1>
-                        <h1 className={"text-center text-lg text-[#9EBC87] font-bold"}>@{props.name}</h1>
+                        <h1 className={"text-center text-lg text-[#9EBC87] font-bold"}>@{userdata.name}</h1>
 
 
                 </div>

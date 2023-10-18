@@ -49,12 +49,14 @@ export function Createpostpage({userdata}){
         console.log(postdata);
         const mydata={
             postedby:userdata._id,
+            userphoto:userdata.photo.url,
             title:postdata.title,
             text:postdata.text,
             photo:{
                 public_id:postImage.public_id,
                 url:postImage.url,
             }
+
         };
         const config={
            
@@ -126,7 +128,7 @@ export function Createpostpage({userdata}){
             console.log(response.data);
             if(response.data.message){
                 alert(response.data.message);
-            } 
+            }
             else{
                 // alert("Login successful");
                 console.log(response.data);
