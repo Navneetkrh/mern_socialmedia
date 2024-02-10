@@ -13,6 +13,6 @@ const router = express.Router();
 
 // router.route("/:chatId").get(protect, allMessages);
 // router.route("/").post(protect, sendMessage);
-router.route("/fetch").post(protect, fetchComments);
+router.route("/fetch").post(fetchComments);
 router.route("/put").post(protect, putcomment);
 module.exports = router;

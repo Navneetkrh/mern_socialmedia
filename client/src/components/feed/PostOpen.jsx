@@ -9,7 +9,7 @@ import { useNavigate,useLocation } from 'react-router-dom';
 // import {CameraOutlined } from '@ant-design/icons';
 import Post from "./Post.jsx";
 import config from "tailwindcss/defaultConfig.js";
-
+import logo from "../../assets/insidelogo.png";
 export function CommentInput({sectionid,commentfetcher}) {
     const UserData = JSON.parse(localStorage.getItem('userdata'));
     // console.log("USERDATA",UserData);
@@ -54,7 +54,7 @@ export function CommentInput({sectionid,commentfetcher}) {
     return (
         <div className={"flex flex-col bg-grayish m-2 p-2 rounded-xl"}>
             <form className={"flex flex-row"}>
-                <input className={"flex flex-col  m-2 p-2 rounded-xl"} type="text" placeholder="Comment" onChange={(e)=>    setComment(e.target.value)}/>
+                <input className={"flex flex-col  m-2 p-2 rounded-xl"} value={comment} type="text" placeholder="Comment" onChange={(e)=>    setComment(e.target.value)}/>
                 <button className={"flex flex-col bg-green-500 m-2 p-2 rounded-xl"} onClick={(e)=>onSend(e)} type="submit" >Send</button>
             </form>
         </div>
@@ -81,15 +81,48 @@ export function PostOpenPage() {
     }
 
     return (
-        <div className={"bg-greenish  m-4 p-4 "}>
-            <div className="flex justify-between items-center">
-                <button onClick={back} className="bg-greenish rounded-full font-bold hover:bg-yellowish p-2 m-2">Back</button>
+        <div className={"bg-blackish  m-4 p-4 "}>
+        <div className='flex justify-between'>
+            <div className='flex-col p-10'>
+                <button onClick={back} className="bg-grayish border-2 rounded-full font-bold hover:bg-yellowish p-2 m-2 text-white h-16 self-center" >Back</button>
             </div>
+                <img src={logo} alt="logo" className="w-32 h-32" />
+            <div></div>
+        </div>
+        <div className=' border-2 flex-col rounded-3xl border-blackish'>
+    <div className={"flex flex-row justify-left mt-4 h-8 ml-4 "}>
+    {  !userphoto && <img src={"https://via.placeholder.com/350x150"} alt={"profile"} className={"h-10 w-10 mx-4 rounded-full"}/>}
+        {userphoto &&<img src={userphoto.url} alt={"profile"} className={"h-16 w-16 mx-4 rounded-full "}/>}
+        <text className={" text-2xl  text-greenish font-semibold "}>@{username}</text>
+    </div>
+    <text className={" text-xl  text-white font-semibold text-left ml-32 mb-8"}>{title}</text>
+    {photo &&<div className={"rounded-xl h-[32rem] mx-8 my-4 justify-center flex bg-black"}><img src={photo.url} alt={"postimage"} className={"h-[32rem]"}/></div>}
+    <div className='text-base rounded-lg text-gray-300 text-left  mx-4 mb-4 my-2 '>
+        <text className='ml-20 ' >{text}</text>
+        </div>
+        <div className={"flex flex-row justify-end mx-12 my-3"}>
+        <button className={"text-white text-base font-semibold"}>
+          <image src={"https://via.placeholder.com/350x150"} alt={"like"} className={"h-8 w-8 mx-4 rounded-full"}/>
+          {likes} Like 
+        </button>
+        <button className={"text-white text-base font-semibold"}>
+          <image src={"https://via.placeholder.com/350x150"} alt={"comment"} className={"h-8 w-8 mx-4 rounded-full"}/>
+          {comments} Comment 
+        </button>
+        <button className={"text-white text-base font-semibold"}>
+          <image src={"https://via.placeholder.com/350x150"} alt={"share"} className={"h-8 w-8 mx-4 rounded-full"}/>
+          0 Shares
+        </button>
+        </div>
+        <CommentSection postid={id}/>
+    </div>
 
+            {/* <Post id={id} username={username} userphoto={userphoto} title={title} text={text} photo={photo} likes={likes} comments={comments} /> */}
 
-            <Post id={id} username={username} userphoto={userphoto} title={title} text={text} photo={photo} likes={likes} comments={comments} />
+            
 
-            <CommentSection postid={id}/>
+            
+
 
 
 

@@ -8,8 +8,10 @@ import {Home} from "./pages/Home.jsx";
 import Loginsignup, {Login} from "./pages/Login.jsx";
 import { Mainlayout } from './pagelayout/mainlayout';
 import { Feed } from './pagelayout/Feed'
+import { Chat} from './pagelayout/Chat';
 import { Createpost } from './components/feed/Createpost';
 import {PostOpen} from "./components/feed/PostOpen.jsx";
+import NotFoundPage from './pages/NotFoundPage';
 
 import {RouterProvider,createBrowserRouter} from "react-router-dom";
 function App() {
@@ -33,17 +35,23 @@ let router = createBrowserRouter([
 
   },
   {
+    path: '/chat',
+    element: <Chat/>,
+
+  },
+  {
     path: '/postopen',
     element: <PostOpen/>,
 
   },
   {
     path: '*',
-    element: <><h1>Not found</h1></>,
+    element: <NotFoundPage />,
   },
 ])
 
   return (
+    
     <div >
       <RouterProvider router={router} />
     </div>

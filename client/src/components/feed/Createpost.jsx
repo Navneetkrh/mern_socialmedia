@@ -10,12 +10,15 @@ import { useNavigate } from 'react-router-dom';
 
 
 export  function Createpost() {
+    let navigate = useNavigate();
     
     const userdata = JSON.parse(localStorage.getItem('userdata'));
     console.log(userdata);
 
     if(!userdata){
         console.log("Not logged in");
+        navigate('/login')
+
     }
     else{
         console.log("Logged in");
