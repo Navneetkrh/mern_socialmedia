@@ -10,7 +10,7 @@ export function Chatsidebar({ username }) {
     // You can add a function here to handle the search functionality
   };
 
-  const chats = ['Chat 1', 'Chat 2', 'Chat 3'];
+  const chats = ['Chat 1', 'Chat 2', 'Chat 3','Chat 1', 'Chat 2', 'Chat 3','Chat 1', 'Chat 2', 'Chat 3','Chat 1', 'Chat 2', 'Chat 3','Chat 1', 'Chat 2', 'Chat 3','Chat 1', 'Chat 2', 'Chat 3'];
 
   return (
     <div className="flex flex-col h-full p-4 bg-grayish rounded-xl">
@@ -36,7 +36,7 @@ export function Chatsidebar({ username }) {
         )}
       </div>
 
-      <div className="overflow-y-auto scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-100">
+      <div className="overflow-y-auto scrollbar-track-inherit scrollbar-thin scrollbar-track-transparent ">
         {chats.map((chat, index) => (
           <div key={index} className="p-2 hover:bg-gray-300 rounded cursor-pointer">
             {chat}
