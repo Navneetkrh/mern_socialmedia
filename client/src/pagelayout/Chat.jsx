@@ -27,6 +27,7 @@ export function Chatpage(){
     return(
         <div className="flex h-screen overflow-hidden  py-5">
         <Chatsidebar/>
+       
     </div>
     )
 }
