@@ -61,6 +61,7 @@ export function Createpostpage({userdata}){
             }
 
         };
+        console.log(mydata);
         const config={
            
             headers:{
