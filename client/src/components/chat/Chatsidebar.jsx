@@ -54,23 +54,29 @@ export function Chatsidebar({ username }) {
           placeholder="Search..." 
           value={search} 
           onChange={handleSearchChange} 
-          className="h-12 w-56 rounded-3xl mb-2 text-center border-gray-500 focus:ring-2 focus:ring-blue-600"
+          className="h-12 w-56 rounded-3xl mb-11 text-center border-gray-500 focus:ring-2 focus:ring-blue-600"
         />
       </div>
 
-      <div className="overflow-y-auto scrollbar-track-inherit scrollbar-thin scrollbar-track-transparent">
+      <div className="overflow-y-auto scrollbar-track-inherit scrollbar-thin scrollbar-track-transparent p-1">
         <ul>
           {filteredChats.map((chat, index) => (
             <li key={chat._id} >
-              <div className="border p-2 mb-2">
-                <button 
-                  onClick={() => handleChatClick(chat._id)}
-                  className={`transform hover:scale-110 motion-reduce:transform-none w-full text-center text-black border p-2 ${index % 2 === 0 ? 'bg-green-300' : 'bg-blue-300'}`}
-                >
+            <div className="p-1 mb-2">
+              <button 
+                onClick={() => handleChatClick(chat._id)}
+                className={`flex items-center rounded-2xl justify-start transform hover:scale-105 motion-reduce:transform-none h-14 w-52 rounded-3xl gap-2 text-black border p-2 ${index % 3 === 0 ? 'bg-bluechat' : index%2 == 0? 'bg-greenish' : 'bg-yellowish'}`}
+              >
+                
+                <div className="rounded-full w-10 h-10 bg-white my-4 ">
+                </div>
+                <p>
                   {chat.users && chat.users[1] && chat.users[1].name}
-                </button>
-              </div>
-            </li>
+                </p>
+              </button>
+            </div>
+          </li>
+          
           ))}
         </ul>
       </div>
