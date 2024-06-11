@@ -76,7 +76,7 @@ export function Chatsidebar({ username }) {
       </div>
 
       {selectedChat && chatContent.length > 0 && (
-        <div className="p-4 mt-4 rounded shadow">
+        <div className="p-4 mt-4 rounded shadow bg-white">
           <h3 className="font-bold mb-2">Chat Content</h3>
           {chatContent.map((message, index) => (
             <div key={index} className="p-2 border-b mb-2">
