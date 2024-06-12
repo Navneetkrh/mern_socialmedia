@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 
-
-
 export function Chatdata({ chatId, username, setCheck }) {
-  const [chatContent, setChatContent] = useState([]);
-  const userdata = JSON.parse(localStorage.getItem('userdata'));
+  const [chatContent, setChatContent] = useState([]); // for displaying chat content
+  const [message, setMessage] = useState('');  // for sending message
 
+  // for auth of user
+  const userdata = JSON.parse(localStorage.getItem('userdata'));
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -14,6 +14,7 @@ export function Chatdata({ chatId, username, setCheck }) {
     }
   };
 
+  // fetching the chat content
   useEffect(() => {
     if (chatId) {
       axios.get(`/api/message/${chatId}`, config).then((response) => {
@@ -24,77 +25,79 @@ export function Chatdata({ chatId, username, setCheck }) {
     }
   }, [chatId]);
 
-  return(
+  // add new message to chat
+  const handleSubmit = async () => {
+    if (!message.trim()) return;
+    try {
+      const response = await axios.post('/api/message', { content: message, chatId }, config);
+      setChatContent([...chatContent, response.data]); // Update the chat content with the new message (this was the issue yaad rakhna)
+      setMessage(''); // Clear the input after submission
+    } catch (error) {
+      console.error('Error adding message:', error);
+    }
+  };
+
+  // use of enter key to send message
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // prevent the default form submission behavior
+      handleSubmit();
+    }
+  };
+
+  return (
     <div className="flex flex-col h-full  bg-grayish rounded-xl mx-3 ">
-  
-  <div className="flex bg-bluechat h-24 rounded-t-xl p-4">
-    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile" className="w-16 h-16 rounded-full mx-4" />
-    <div className="flex flex-col">
-        <h1 className="text-black font-bold text-3xl whitespace-nowrap">Firstname Lastname</h1>
-        <h2 className="text-black font-bold text-xl">@{username}</h2>
-    </div>
-    <div className="w-full flex justify-end items-center">
-        <div className="flex items-center">
-            <img src="/imagecall.png" alt="call" className="w-14 h-12 mx-2"/>
-            <img src="/imagephone.png" alt="videocall" className="w-16 h-16 mx-2"/>
+
+      <div className="flex bg-bluechat h-24 rounded-t-xl p-4">
+        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile" className="w-16 h-16 rounded-full mx-4" />
+        <div className="flex flex-col">
+          <h1 className="text-black font-bold text-3xl whitespace-nowrap">Firstname Lastname</h1>
+          <h2 className="text-black font-bold text-xl">@{username}</h2>
         </div>
-    </div>
-</div>
-
-    
-    <div className="flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-bluechat scrollbar-track-grayish px-4 bg-grayish text-white"> 
-    <ul >
-
-      
-        {
-          chatContent.map((message, index) => (
-            <li key={index} className={`flex`}>
-              {message.sender.name === username && <div className="w-3/4"></div>}
-              {message.sender.name === username && <div className="flex-grow"></div>}
-              <div className={`${message.sender.name === username ? "bg-gray-300" : "bg-yellow-300"} text-black font-semibold my-2 rounded-full p-4`}>
-  {message.content}</div>
-              {message.sender.name !== username && <div className="flex-grow"></div>}
-              {message.sender.name !== username && <div className="w-3/4"></div>}
-            </li>
-          ))
-
-        }
-        {/* <li className="flex">
-          <div className="bg-yellow-300 h-12 w-full my-2 rounded-full">
-          
+        <div className="w-full flex justify-end items-center">
+          <div className="flex items-center">
+            <img src="/imagecall.png" alt="call" className="w-14 h-12 mx-2" />
+            <img src="/imagephone.png" alt="videocall" className="w-16 h-16 mx-2" />
           </div>
-          <div className="flex-grow"></div>
-          <div className="w-3/4"></div>
-
-        </li>
-
-        <li className="flex">
-          <div className="w-3/4"></div>
-          <div className="flex-grow"></div>
-          <div className="bg-gray-300 h-12 w-full my-2 rounded-full">
-          
-          </div>
-        </li> */}
-      
-
-        
-       </ul>
+        </div>
       </div>
-     
+
+
+      <div className="flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-bluechat scrollbar-track-grayish px-4 bg-grayish text-white">
+        <ul >
+
+
+          {
+            chatContent.map((message, index) => (
+              <li key={index} className={`flex`}>
+                {message.sender.name === username && <div className="w-3/4"></div>}
+                {message.sender.name === username && <div className="flex-grow"></div>}
+                <div className={`${message.sender.name === username ? "bg-gray-300" : "bg-yellow-300"} text-black font-semibold my-2 rounded-3xl p-4`}>
+                  {message.content}</div>
+                {message.sender.name !== username && <div className="flex-grow"></div>}
+                {message.sender.name !== username && <div className="w-3/4"></div>}
+              </li>
+            ))
+
+          }
+        </ul>
+      </div>
+
       <div className="w-full h-20 p-2  ">
-      <div className="bg-black rounded-full w-full h-16 flex items-center p-2">
-        <textarea
-          className="bg-black flex-grow h-full border-none rounded-full p-2 resize-none text-white text-center placeholder-center"
-          rows="1"
-          placeholder="Write Something..."
-        />
-</div>
-
+        <div className="bg-black rounded-full w-full h-16 flex items-center p-2">
+          <textarea
+            className="bg-black flex-grow h-full border-none rounded-full p-2 resize-none text-white text-center placeholder-center"
+            rows="1"
+            placeholder="Write Something..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyPress}
+          />
+          <button type="button" onClick={handleSubmit}>
+            <img src="/send/image.png" type="button" alt="send"  onClick={handleSubmit} className="w-12 h-12 p-1 rounded-full bg-bluechat hover:scale-105 " />
+          </button>
+        </div>
       </div>
-      
-            
-
-
     </div>
   );
 }
@@ -105,6 +108,7 @@ export function Chatsidebar({SetUsername,SetChatId, SetCheck}) {
   const [filteredChats, setFilteredChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
   const [chatContent, setChatContent] = useState([]);
+  
   // For auth
   const userdata = JSON.parse(localStorage.getItem('userdata'));
 
