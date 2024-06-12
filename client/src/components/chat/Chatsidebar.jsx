@@ -4,6 +4,7 @@ import axios from 'axios';
 export function Chatdata({ chatId, username, setCheck }) {
   const [chatContent, setChatContent] = useState([]); // for displaying chat content
   const [message, setMessage] = useState('');  // for sending message
+  const [isSubmitting, setIsSubmitting] = useState(false); // to manage submission state
 
   // for auth of user
   const userdata = JSON.parse(localStorage.getItem('userdata'));
@@ -27,13 +28,16 @@ export function Chatdata({ chatId, username, setCheck }) {
 
   // add new message to chat
   const handleSubmit = async () => {
-    if (!message.trim()) return;
+    if (!message.trim() || isSubmitting) return;
+    setIsSubmitting(true);
     try {
       const response = await axios.post('/api/message', { content: message, chatId }, config);
-      setChatContent([...chatContent, response.data]); // Update the chat content with the new message (this was the issue yaad rakhna)
+      setChatContent([...chatContent, response.data]); // Update the chat content with the new message
       setMessage(''); // Clear the input after submission
     } catch (error) {
       console.error('Error adding message:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -47,7 +51,6 @@ export function Chatdata({ chatId, username, setCheck }) {
 
   return (
     <div className="flex flex-col h-full  bg-grayish rounded-xl mx-3 ">
-
       <div className="flex bg-bluechat h-24 rounded-t-xl p-4">
         <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile" className="w-16 h-16 rounded-full mx-4" />
         <div className="flex flex-col">
@@ -62,28 +65,25 @@ export function Chatdata({ chatId, username, setCheck }) {
         </div>
       </div>
 
-
       <div className="flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-bluechat scrollbar-track-grayish px-4 bg-grayish text-white">
-        <ul >
-
-
+        <ul>
           {
             chatContent.map((message, index) => (
               <li key={index} className={`flex`}>
                 {message.sender.name === username && <div className="w-3/4"></div>}
                 {message.sender.name === username && <div className="flex-grow"></div>}
                 <div className={`${message.sender.name === username ? "bg-gray-300" : "bg-yellow-300"} text-black font-semibold my-2 rounded-3xl p-4`}>
-                  {message.content}</div>
+                  {message.content}
+                </div>
                 {message.sender.name !== username && <div className="flex-grow"></div>}
                 {message.sender.name !== username && <div className="w-3/4"></div>}
               </li>
             ))
-
           }
         </ul>
       </div>
 
-      <div className="w-full h-20 p-2  ">
+      <div className="w-full h-20 p-2">
         <div className="bg-black rounded-full w-full h-16 flex items-center p-2">
           <textarea
             className="bg-black flex-grow h-full border-none rounded-full p-2 resize-none text-white text-center placeholder-center"
@@ -94,13 +94,14 @@ export function Chatdata({ chatId, username, setCheck }) {
             onKeyDown={handleKeyPress}
           />
           <button type="button" onClick={handleSubmit}>
-            <img src="/send/image.png" type="button" alt="send"  onClick={handleSubmit} className="w-12 h-12 p-1 rounded-full bg-bluechat hover:scale-105 " />
+            <img src="/send/image.png" alt="send" className="w-12 h-12 p-1 rounded-full bg-bluechat hover:scale-105" />
           </button>
         </div>
       </div>
     </div>
   );
 }
+
 
 export function Chatsidebar({SetUsername,SetChatId, SetCheck}) {
   const [search, setSearch] = useState('');
