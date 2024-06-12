@@ -27,7 +27,7 @@ export function Chatdata({ chatId, username, setCheck }) {
   return(
     <div className="flex flex-col h-full  bg-grayish rounded-xl mx-3 ">
   
-    <div className="flex bg-blue-300 h-24 rounded-t-xl p-4">
+    <div className="flex bg-bluechat h-24 rounded-t-xl p-4">
     <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile" className="w-16 h-16 rounded-full mx-4" />
     <div>
     <h1 className="text-black font-bold text-3xl">Firstname Lastname</h1>
