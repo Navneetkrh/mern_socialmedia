@@ -27,14 +27,21 @@ export function Chatdata({ chatId, username, setCheck }) {
   return(
     <div className="flex flex-col h-full  bg-grayish rounded-xl mx-3 ">
   
-    <div className="flex bg-bluechat h-24 rounded-t-xl p-4">
+  <div className="flex bg-bluechat h-24 rounded-t-xl p-4">
     <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile" className="w-16 h-16 rounded-full mx-4" />
-    <div>
-    <h1 className="text-black font-bold text-3xl">Firstname Lastname</h1>
-    <h2 className="text-black font-bold text-xl">@{username}</h2>
+    <div className="flex flex-col">
+        <h1 className="text-black font-bold text-3xl whitespace-nowrap">Firstname Lastname</h1>
+        <h2 className="text-black font-bold text-xl">@{username}</h2>
     </div>
+    <div className="w-full flex justify-end items-center">
+        <div className="flex items-center">
+            <img src="/imagecall.png" alt="call" className="w-14 h-12 mx-2"/>
+            <img src="/imagephone.png" alt="videocall" className="w-16 h-16 mx-2"/>
+        </div>
+    </div>
+</div>
+
     
-    </div>
     <div className="flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-bluechat scrollbar-track-grayish px-4 bg-grayish text-white"> 
     <ul >
 
@@ -44,10 +51,8 @@ export function Chatdata({ chatId, username, setCheck }) {
             <li key={index} className={`flex`}>
               {message.sender.name === username && <div className="w-3/4"></div>}
               {message.sender.name === username && <div className="flex-grow"></div>}
-               
-              <div className={`${message.sender.name === username ? "bg-gray-300" : "bg-yellow-300"} h-12 text-black font-semibold my-2 rounded-full p-4`}>
-                  {message.content}
-              </div>
+              <div className={`${message.sender.name === username ? "bg-gray-300" : "bg-yellow-300"} text-black font-semibold my-2 rounded-full p-4`}>
+  {message.content}</div>
               {message.sender.name !== username && <div className="flex-grow"></div>}
               {message.sender.name !== username && <div className="w-3/4"></div>}
             </li>
@@ -77,9 +82,13 @@ export function Chatdata({ chatId, username, setCheck }) {
       </div>
      
       <div className="w-full h-20 p-2  ">
-      <div className="bg-black rounded-full w-full h-16 ">
-
-      </div>
+      <div className="bg-black rounded-full w-full h-16 flex items-center p-2">
+        <textarea
+          className="bg-black flex-grow h-full border-none rounded-full p-2 resize-none text-white text-center placeholder-center"
+          rows="1"
+          placeholder="Write Something..."
+        />
+</div>
 
       </div>
       
