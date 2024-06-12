@@ -17,6 +17,8 @@ export default {
           'pinkish': '#A24599',
           'lbluish': '#C2D9E3',
           'bluechat' : '#94D0EA',
+          'graychat' : '#D3D3D3',
+          'blacka' : '#151618',
         }
     },
   },
