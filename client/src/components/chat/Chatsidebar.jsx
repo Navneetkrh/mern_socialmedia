@@ -70,13 +70,13 @@ export function Chatdata({ chatId, username, setCheck }) {
           {
             chatContent.map((message, index) => (
               <li key={index} className={`flex`}>
-                {message.sender.name === username && <div className="w-3/4"></div>}
-                {message.sender.name === username && <div className="flex-grow"></div>}
-                <div className={`${message.sender.name === username ? "bg-gray-300" : "bg-yellow-300"} text-black font-semibold my-2 rounded-3xl p-4`}>
+                {message.sender.name !== username && <div className="w-3/4"></div>}
+                {message.sender.name !== username && <div className="flex-grow"></div>}
+                <div className={`${message.sender.name !== username ? "bg-gray-300" : "bg-yellow-300"} text-black font-semibold my-2 rounded-3xl p-4`}>
                   {message.content}
                 </div>
-                {message.sender.name !== username && <div className="flex-grow"></div>}
-                {message.sender.name !== username && <div className="w-3/4"></div>}
+                {message.sender.name === username && <div className="flex-grow"></div>}
+                {message.sender.name === username && <div className="w-3/4"></div>}
               </li>
             ))
           }
@@ -102,14 +102,15 @@ export function Chatdata({ chatId, username, setCheck }) {
   );
 }
 
-
-export function Chatsidebar({SetUsername,SetChatId, SetCheck}) {
+export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
   const [search, setSearch] = useState('');
   const [chats, setChats] = useState([]);
   const [filteredChats, setFilteredChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
   const [chatContent, setChatContent] = useState([]);
-  
+  const [users, setUsers] = useState([]);
+  const [showUsers, setShowUsers] = useState(false);
+
   // For auth
   const userdata = JSON.parse(localStorage.getItem('userdata'));
 
@@ -120,7 +121,7 @@ export function Chatsidebar({SetUsername,SetChatId, SetCheck}) {
     }
   };
 
-  const onClick = (username,chatId,check) => {
+  const onClick = (username, chatId, check) => {
     SetUsername(username);
     SetChatId(chatId);
     SetCheck(check);
@@ -128,7 +129,7 @@ export function Chatsidebar({SetUsername,SetChatId, SetCheck}) {
     console.log(username);
     console.log(chatId);
     console.log(check);
-  }
+  };
 
   const handleSearchChange = (event) => {
     const value = event.target.value.toLowerCase();
@@ -145,18 +146,41 @@ export function Chatsidebar({SetUsername,SetChatId, SetCheck}) {
     });
   };
 
+  useEffect(() => {
+    chatfetcher();
+  }, []);
 
-  const handleChatClick = (chatId) => {
-    axios.get(`/api/message/${chatId}`, config).then((response) => {
-      setSelectedChat(chatId);
-      setChatContent(response.data);
+  const addusers = () => {
+    axios.get("/api/user/fetchUsers", config).then((response) => {
+      setUsers(response.data);
     }).catch((error) => {
-      console.log("Error fetching chat content:", error);
+      console.log("Error fetching users:", error);
     });
   };
 
+  const createnewchat = (selectedUserId, username) => {
+    // Check if a chat with the selected user already exists
+    const existingChat = chats.find(chat => chat.users.some(user => user._id === selectedUserId));
+
+    if (existingChat) {
+      // Open the existing chat
+      onClick(username, existingChat._id, true);
+    } else {
+      // Create a new chat
+      axios.post("/api/chat", { userId: selectedUserId }, config).then((response) => {
+        const newChat = response.data;
+        setChats([...chats, newChat]);
+        setFilteredChats([...chats, newChat]);
+        onClick(username, newChat._id, true);
+        setShowUsers(false);
+      }).catch((error) => {
+        console.log("Error creating new chat:", error);
+      });
+    }
+  };
+
   useEffect(() => {
-    chatfetcher();
+    addusers();
   }, []);
 
   return (
@@ -167,30 +191,51 @@ export function Chatsidebar({SetUsername,SetChatId, SetCheck}) {
           placeholder="Search user..." 
           value={search} 
           onChange={handleSearchChange} 
-          className="h-12 w-56 rounded-3xl mb-11 text-center bg-grayish border-2 border-gray-400 focus:ring-2 focus:ring-blue-600"
+          className="h-12 w-56 text-white rounded-3xl mb-11 text-center bg-grayish border-2 border-gray-400 focus:ring-2 focus:ring-blue-600"
         />
       </div>
 
-      <div className="ov
-      erflow-y-auto scrollbar-track-inherit scrollbar-thin scrollbar-track-transparent p-1">
+      <button 
+        onClick={() => setShowUsers(!showUsers)} 
+        className="mb-4 p-2 rounded-3xl bg-blue-500 text-white"
+      >
+        {showUsers ? 'Hide Users' : 'Show Users'}
+      </button>
+
+      {showUsers && (
+        <div className="overflow-y-auto scrollbar-track-inherit scrollbar-thin scrollbar-track-transparent p-1 mb-4">
+          <ul>
+            {users.map(user => (
+              <li key={user._id} className="p-1 mb-2">
+                <button 
+                  onClick={() => createnewchat(user._id, user.name)} 
+                  className="flex items-center justify-start transform hover:scale-105 motion-reduce:transform-none h-14 w-52 rounded-3xl gap-2 text-black p-2 bg-gray-200"
+                >
+                  <div className="rounded-full w-10 h-10 bg-white my-4"></div>
+                  <p className="font-semibold">{user.name}</p>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="overflow-y-auto scrollbar-track-inherit scrollbar-thin scrollbar-track-transparent p-1">
         <ul>
           {filteredChats.map((chat, index) => (
-            <li key={chat._id} >
-            <div className="p-1 mb-2">
-              <button 
-                onClick={() => onClick(chat.users[1].name,chat._id,true)}
-                className={`flex items-center  justify-start transform hover:scale-105 motion-reduce:transform-none h-14 w-52 rounded-3xl gap-2 text-black  p-2 ${index % 3 === 0 ? 'bg-bluechat' : index% 3 == 1? 'bg-greenish' : 'bg-yellowish'}`}
-              >
-                <div className="rounded-full w-10 h-10 bg-white my-4 ">
-                </div>
-                <p className="font-semibold">
-                  {chat.users && chat.users[1] && chat.users[1].name}
-                </p>
-
-              </button>
-            </div>
-          </li>
-          
+            <li key={chat._id}>
+              <div className="p-1 mb-2">
+                <button 
+                  onClick={() => onClick(chat.users[1].name, chat._id, true)}
+                  className={`flex items-center justify-start transform hover:scale-105 motion-reduce:transform-none h-14 w-52 rounded-3xl gap-2 text-black p-2 ${index % 3 === 0 ? 'bg-bluechat' : index % 3 === 1 ? 'bg-greenish' : 'bg-yellowish'}`}
+                >
+                  <div className="rounded-full w-10 h-10 bg-white my-4 "></div>
+                  <p className="font-semibold">
+                    {chat.users && chat.users[1] && chat.users[1].name}
+                  </p>
+                </button>
+              </div>
+            </li>
           ))}
         </ul>
       </div>
