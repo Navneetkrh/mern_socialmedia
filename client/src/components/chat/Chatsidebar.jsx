@@ -135,6 +135,11 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
 
   const handleSearchChange = (event) => {
     const value = event.target.value.toLowerCase();
+    if (value === '') {
+      setShowUsers(false);
+    } else {
+      setShowUsers(true);
+    }
     setSearch(value);
     setFilteredChats(chats.filter(chat => chat.users[1].name.toLowerCase().includes(value)));
     setNewUsers(users.filter(user => user.name.toLowerCase().includes(value)));  
@@ -158,10 +163,15 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
       const filteredUsers = response.data.filter(user => !chats.some(chat => chat.users.some(chatUser => chatUser._id === user._id)));
       setUsers(filteredUsers);
       setNewUsers(filteredUsers);
+      setShowUsers(false);
     }).catch((error) => {
       console.log("Error fetching users:", error);
     });
   };
+
+  useEffect(() => {
+    addusers();
+  }, []);
 
 
   const createnewchat = (selectedUserId, username) => {
@@ -182,13 +192,6 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
     }
   };
 
-  const handleShowUsersClick = () => {
-    setShowUsers(!showUsers);
-    if (!showUsers) {
-      addusers();
-    }
-  };
-
   return (
     <div className="flex flex-col h-full p-4 bg-grayish rounded-xl w-64">
       <div className="relative">
@@ -200,31 +203,6 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
           className="h-12 w-56 text-white rounded-3xl mb-11 text-center bg-grayish border-2 border-gray-400 focus:ring-2 focus:ring-blue-600"
         />
       </div>
-
-      <button 
-        onClick={handleShowUsersClick} 
-        className="mb-4 p-2 rounded-3xl bg-blue-500 text-white"
-      >
-        {showUsers ? 'Hide Users' : 'Show Users'}
-      </button>
-
-      {showUsers && (
-        <div className="overflow-y-auto scrollbar-track-inherit scrollbar-thin scrollbar-track-transparent p-1 mb-4">
-          <ul>
-            {users.map((user,index) => (
-              <li key={user._id} className="p-1 mb-2">
-                <button 
-                  onClick={() => createnewchat(user._id, user.name)} 
-                  className={`flex items-center justify-start transform hover:scale-105 motion-reduce:transform-none h-14 w-52 rounded-3xl gap-2 text-black p-2 ${index % 3 === 0 ? 'bg-bluechat' : index % 3 === 1 ? 'bg-greenish' : 'bg-yellowish'}`}
-                  >
-                  <div className="rounded-full w-10 h-10 bg-white my-4"></div>
-                  <p className="font-semibold">{user.name}</p>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
 
       <div className="overflow-y-auto scrollbar-track-inherit scrollbar-thin scrollbar-track-transparent p-1">
         <ul>
@@ -244,8 +222,27 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
             </li>
           ))}
         </ul>
-      </div>
 
+      {showUsers && (
+        <ul>
+          <div className="p-1 mb-2">
+            <p className="font-semibold text-white">New Users</p>
+            </div>
+            {newusers.map((user,index) => (
+              <li key={user._id} className="p-1 mb-2">
+                <button 
+                  onClick={() => createnewchat(user._id, user.name)} 
+                  className={`flex items-center justify-start transform hover:scale-105 motion-reduce:transform-none h-14 w-52 rounded-3xl gap-2 text-black p-2 ${index % 3 === 0 ? 'bg-bluechat' : index % 3 === 1 ? 'bg-greenish' : 'bg-yellowish'}`}
+                  >
+                  <div className="rounded-full w-10 h-10 bg-white my-4"></div>
+                  <p className="font-semibold">{user.name}</p>
+                </button>
+              </li>
+            ))}
+          </ul>
+      )}
+      </div>
+   
       {selectedChat && chatContent.length > 0 && (
         <div className="p-4 mt-4 rounded shadow bg-white">
           <h3 className="font-bold mb-2">Chat Content</h3>
