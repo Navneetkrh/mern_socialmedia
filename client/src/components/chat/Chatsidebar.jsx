@@ -159,14 +159,11 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
   };
 
   const createnewchat = (selectedUserId, username) => {
-    // Check if a chat with the selected user already exists
     const existingChat = chats.find(chat => chat.users.some(user => user._id === selectedUserId));
 
     if (existingChat) {
-      // Open the existing chat
       onClick(username, existingChat._id, true);
     } else {
-      // Create a new chat
       axios.post("/api/chat", { userId: selectedUserId }, config).then((response) => {
         const newChat = response.data;
         setChats([...chats, newChat]);
@@ -179,9 +176,12 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
     }
   };
 
-  useEffect(() => {
-    addusers();
-  }, []);
+  const handleShowUsersClick = () => {
+    setShowUsers(!showUsers);
+    if (!showUsers) {
+      addusers();
+    }
+  };
 
   return (
     <div className="flex flex-col h-full p-4 bg-grayish rounded-xl w-64">
@@ -196,7 +196,7 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
       </div>
 
       <button 
-        onClick={() => setShowUsers(!showUsers)} 
+        onClick={handleShowUsersClick} 
         className="mb-4 p-2 rounded-3xl bg-blue-500 text-white"
       >
         {showUsers ? 'Hide Users' : 'Show Users'}
@@ -205,12 +205,12 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
       {showUsers && (
         <div className="overflow-y-auto scrollbar-track-inherit scrollbar-thin scrollbar-track-transparent p-1 mb-4">
           <ul>
-            {users.map(user => (
+            {users.map((user,index) => (
               <li key={user._id} className="p-1 mb-2">
                 <button 
                   onClick={() => createnewchat(user._id, user.name)} 
-                  className="flex items-center justify-start transform hover:scale-105 motion-reduce:transform-none h-14 w-52 rounded-3xl gap-2 text-black p-2 bg-gray-200"
-                >
+                  className={`flex items-center justify-start transform hover:scale-105 motion-reduce:transform-none h-14 w-52 rounded-3xl gap-2 text-black p-2 ${index % 3 === 0 ? 'bg-bluechat' : index % 3 === 1 ? 'bg-greenish' : 'bg-yellowish'}`}
+                  >
                   <div className="rounded-full w-10 h-10 bg-white my-4"></div>
                   <p className="font-semibold">{user.name}</p>
                 </button>
