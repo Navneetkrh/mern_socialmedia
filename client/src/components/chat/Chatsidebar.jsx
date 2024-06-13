@@ -184,8 +184,13 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
         const newChat = response.data;
         setChats([...chats, newChat]);
         setFilteredChats([...chats, newChat]);
+        setNewUsers(newusers.filter(user => user._id !== selectedUserId));
+        if (newusers.length === 1) {
+          setShowUsers(false);
+        }
         onClick(username, newChat._id, true);
         setShowUsers(false);
+        addusers();
       }).catch((error) => {
         console.log("Error creating new chat:", error);
       });
