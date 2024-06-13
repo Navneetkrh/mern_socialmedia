@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
+// import { set } from "mongoose";
 
 export function Chatdata({ chatId, username, setCheck }) {
   const [chatContent, setChatContent] = useState([]); // for displaying chat content
@@ -110,6 +111,7 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
   const [chatContent, setChatContent] = useState([]);
   const [users, setUsers] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
+  const [newusers , setNewUsers] = useState([]);
 
   // For auth
   const userdata = JSON.parse(localStorage.getItem('userdata'));
@@ -135,6 +137,7 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
     const value = event.target.value.toLowerCase();
     setSearch(value);
     setFilteredChats(chats.filter(chat => chat.users[1].name.toLowerCase().includes(value)));
+    setNewUsers(users.filter(user => user.name.toLowerCase().includes(value)));  
   };
 
   const chatfetcher = () => {
@@ -152,11 +155,14 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
 
   const addusers = () => {
     axios.get("/api/user/fetchUsers", config).then((response) => {
-      setUsers(response.data);
+      const filteredUsers = response.data.filter(user => !chats.some(chat => chat.users.some(chatUser => chatUser._id === user._id)));
+      setUsers(filteredUsers);
+      setNewUsers(filteredUsers);
     }).catch((error) => {
       console.log("Error fetching users:", error);
     });
   };
+
 
   const createnewchat = (selectedUserId, username) => {
     const existingChat = chats.find(chat => chat.users.some(user => user._id === selectedUserId));
@@ -189,8 +195,8 @@ export function Chatsidebar({ SetUsername, SetChatId, SetCheck }) {
         <input 
           type="text" 
           placeholder="Search user..." 
-          value={search} 
-          onChange={handleSearchChange} 
+          value={search}
+          onChange={handleSearchChange}
           className="h-12 w-56 text-white rounded-3xl mb-11 text-center bg-grayish border-2 border-gray-400 focus:ring-2 focus:ring-blue-600"
         />
       </div>
