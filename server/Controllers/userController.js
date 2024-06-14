@@ -76,7 +76,7 @@ const logoutController = expressAsyncHandler(async (req, res) => {
             res.send('Logged out');
         });
     } else {
-        res.send('Logged out');
+        res.send('Already Logged out');
     }
 });
 
