@@ -67,6 +67,31 @@ const registerController=expressAsyncHandler (async (req,res)=>{
 }
 );
 
+const logoutController = expressAsyncHandler(async (req, res) => {
+    if (req.session) {
+        req.session.destroy(err => {
+            if (err) {
+                return res.status(500).send('Error logging out');
+            }
+            res.send('Logged out');
+        });
+    } else {
+        res.send('Logged out');
+    }
+});
+
+const deleteusercontroller=expressAsyncHandler(async (req,res)=>{
+    const user = await UserModel.findByIdAndDelete(req.params._id);
+    if(user){
+        await user.remove();
+        res.json({message:"User removed"});
+    }
+    else{
+        res.status(404);
+        throw new Error("User not found");
+    }
+});
+
 const fetchAllUsersController=expressAsyncHandler(async (req,res)=>{
     const keyword=req.query.search
         ?{
@@ -84,4 +109,4 @@ const fetchAllUsersController=expressAsyncHandler(async (req,res)=>{
     res.send(users);
 }
 );
-module.exports={loginController,registerController,fetchAllUsersController};
+module.exports={loginController,registerController,fetchAllUsersController,logoutController , deleteusercontroller};

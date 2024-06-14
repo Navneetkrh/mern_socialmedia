@@ -73,5 +73,16 @@ const fetchPost = expressAsyncHandler(async (req, res) => {
 
 });
 
-module.exports = {createPost,fetchPost};
+const deletePost = expressAsyncHandler(async (req, res) => {
+   const post = await postModal.findByIdAndDelete(req.params._id);
+   if(post){
+        res.json({message :'Removed Post'})
+   }
+   else{
+    res.status(404);
+    throw new Error("deleted post");
+   }
+});
 
+
+module.exports = {createPost,fetchPost,deletePost};
