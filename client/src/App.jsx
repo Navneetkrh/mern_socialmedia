@@ -12,6 +12,7 @@ import { Chat} from './pagelayout/Chat';
 import { Createpost } from './components/feed/Createpost';
 import {PostOpen} from "./components/feed/PostOpen.jsx";
 import NotFoundPage from './pages/NotFoundPage';
+import { Filteredpost } from './components/profile/mypost.jsx';
 
 import {RouterProvider,createBrowserRouter} from "react-router-dom";
 function App() {
@@ -20,6 +21,10 @@ let router = createBrowserRouter([
   {
     path: '/login',
     element: <Loginsignup />,
+  },
+  {
+    path : '/userpost',
+    element: <Filteredpost />,
   },
   {
     path: '/',

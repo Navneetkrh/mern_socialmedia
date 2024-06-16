@@ -62,6 +62,17 @@ const createPost = expressAsyncHandler(async (req, res) => {
 
 });
 
+const fetchmypost = expressAsyncHandler(async (req, res) => {
+    try {
+        const posts = await postModal.find({postedby:req.params._id}).populate("postedby");
+        res.json(posts);
+        console.log(posts);
+    } catch (error) {
+        res.status(400).json({message:error.message});
+    }
+
+});
+
 const fetchPost = expressAsyncHandler(async (req, res) => {
     try {
         const posts = await postModal.find({}).populate("postedby");
@@ -85,4 +96,4 @@ const deletePost = expressAsyncHandler(async (req, res) => {
 });
 
 
-module.exports = {createPost,fetchPost,deletePost};
+module.exports = {createPost,fetchPost,deletePost,fetchmypost};

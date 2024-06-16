@@ -52,8 +52,8 @@ export function Feedpage() {
         } );
     }
     useEffect(() => {
-      
-    
+
+        
         postfetcher();
         
         const interval = setInterval(() => {
