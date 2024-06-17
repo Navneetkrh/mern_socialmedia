@@ -60,8 +60,8 @@ export const Fetchmypost = ({ userdata }) => {
                         title={post.title}
                         text={post.text}
                         photo={post.photo}
-                        userphoto={post.postedby?.photo?.url} // Add optional chaining here
-                        username={post.postedby?.name} // Add optional chaining here
+                        userphoto={post.postedby?.photo?.url}
+                        username={post.postedby?.name}
                     />
                 )).reverse();
                 setMypost(posts);

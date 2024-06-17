@@ -64,7 +64,7 @@ export function CommentInput({sectionid,commentfetcher}) {
 export function PostOpenPage() {
     const navigate = useNavigate();
     const location = useLocation();
-    console.log("here my son",location.state);
+    // console.log("here my son",location.state);`
     let id=location.state.id;
     let username=location.state.username;
     let userphoto=location.state.userphoto;
