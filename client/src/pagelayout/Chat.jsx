@@ -11,13 +11,6 @@ import axios from 'axios';
 
 const userdata = JSON.parse(localStorage.getItem('userdata'));
 
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${userdata.token}`
-    }
-  };
-
  
 export function Chatpage(){
     const[check,setCheck]=useState(false);

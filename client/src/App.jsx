@@ -6,6 +6,7 @@ import {Sidebar} from "./components/Sidebar.jsx";
 import profile from "./assets/profile.jpeg"
 import {Home} from "./pages/Home.jsx";
 import Loginsignup, {Login} from "./pages/Login.jsx";
+import {Logouthere} from "./components/profile/Logoutpop.jsx";
 import { Mainlayout } from './pagelayout/mainlayout';
 import { Feed } from './pagelayout/Feed'
 import { Chat} from './pagelayout/Chat';
@@ -48,6 +49,10 @@ let router = createBrowserRouter([
     path: '/postopen',
     element: <PostOpen/>,
 
+  },
+  {
+    path: '/logout',
+    element: <Logouthere />,
   },
   {
     path: '*',

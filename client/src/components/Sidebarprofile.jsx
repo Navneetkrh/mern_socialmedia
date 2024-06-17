@@ -24,7 +24,7 @@ export function Sidebarforprofile(props){
                 <NavLink className="text-gray-400 aria-[current=page]:text-white hover:text-greenish" to="/userpost">My Post</NavLink>
                 
                 <NavLink className="text-gray-400 aria-[current=page]:text-white hover:text-greenish" to="/">Favourites</NavLink>
-                <NavLink className="text-gray-400 aria-[current=page]:text-white hover:text-greenish" to="/">Logout</NavLink>
+                <NavLink className="text-gray-400 aria-[current=page]:text-white hover:text-greenish" to="/logout">Logout</NavLink>
             </ul>
         </nav>
     )

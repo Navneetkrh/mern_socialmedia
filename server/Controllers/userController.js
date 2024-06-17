@@ -67,18 +67,6 @@ const registerController=expressAsyncHandler (async (req,res)=>{
 }
 );
 
-const logoutController = expressAsyncHandler(async (req, res) => {
-    if (req.session) {
-        req.session.destroy(err => {
-            if (err) {
-                return res.status(500).send('Error logging out');
-            }
-            res.send('Logged out');
-        });
-    } else {
-        res.send('Already Logged out');
-    }
-});
 
 const deleteusercontroller=expressAsyncHandler(async (req,res)=>{
     const user = await UserModel.findByIdAndDelete(req.params._id);
@@ -90,6 +78,11 @@ const deleteusercontroller=expressAsyncHandler(async (req,res)=>{
         res.status(404);
         throw new Error("User not found");
     }
+});
+
+const logoutController = expressAsyncHandler(async (req, res) => {
+    // Perform any necessary cleanup (if needed)
+    res.status(200).json({ message: "Logged out successfully" });
 });
 
 const fetchAllUsersController=expressAsyncHandler(async (req,res)=>{

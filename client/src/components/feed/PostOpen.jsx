@@ -73,19 +73,48 @@ export function PostOpenPage() {
     let photo=location.state.photo;
     let likes=location.state.likes;
     let comments=location.state.comments;
+    
+    const userdata = JSON.parse(localStorage.getItem('userdata'));
 
-
+    const config = {
+        headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userdata.token}`
+        }
+    };
     // navigate to back page
     function back(){
         navigate("/feed");
     }
 
+    function backprofile(){
+        navigate("/userpost");
+    }
+    function deleteposthere(){
+        
+        console.log("deleting post");
+        axios.delete(`/api/feed/deletePost/${id}`,config).then((response) => {
+            console.log(response.data);
+            navigate("/userpost");
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
     return (
         <div className={"bg-blackish  m-4 p-4 "}>
         <div className='flex justify-between'>
+        {userdata.name === username && (
             <div className='flex-col p-10'>
-                <button onClick={back} className="bg-grayish border-2 rounded-full font-bold hover:bg-yellowish p-2 m-2 text-white h-16 self-center" >Back</button>
+                <button onClick={deleteposthere} className="bg-grayish border-2 rounded-full font-bold hover:bg-yellowish p-2 m-2 text-white h-16 self-center" >Delete</button>
             </div>
+        )}
+            <div className='flex-col p-10'>
+                <button onClick={back} className="bg-grayish border-2 rounded-full font-bold hover:bg-yellowish p-2 m-2 text-white h-16 self-center" >Back to Feed</button>
+            </div>
+        {userdata.name === username && (
+            <div className='flex-col p-10'>
+                <button onClick={backprofile} className="bg-grayish border-2 rounded-full font-bold hover:bg-yellowish p-2 m-2 text-white h-16 self-center" >Back to Profile</button>
+            </div>)}
                 <img src={logo} alt="logo" className="w-32 h-32" />
             <div></div>
         </div>
