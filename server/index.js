@@ -11,7 +11,7 @@ const postRoutes = require("./Routes/postRoutes");
 const cloudinary = require("./Config/cloudinary.js");
 const expressAsyncHandler = require('express-async-handler');
 const bodyParser = require('body-parser');
-const {setupCronJob} = require("./forRefreshing.js");
+const setupCronJob = require('./forRefreshing.js');
 
 const app = express();
 // app.use(express.json());
@@ -35,8 +35,10 @@ const MONGO_URI = process.env.MONGO_URI;
 //     next();
 // });
 
+const apiUrl = process.env.API_URL;
+setupCronJob(apiUrl);
 
-setupCronJob('/api');
+// setupCronJob('/api');
 
 
 const connectDb = async () => {
