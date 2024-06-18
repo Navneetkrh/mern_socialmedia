@@ -54,17 +54,17 @@ const connectDb = async () => {
         process.exit(1);
     }
 }
+
 connectDb('/');
+app.get('/' , (req, res) => {
+    res.send('Hello World');
+});
 
 // app.get('/api', (req, res) => {
 // //    send a json response
 //     res.json({message: 'Hello World'});
 // }
-// );
-
-app.get('/' , (req, res) => {
-    res.send('Hello World');
-});
+// )
 
 app.post('/laxme', (req, res) => {
     res.json(req.body);
