@@ -1,5 +1,5 @@
 import React from 'react'
-import Search from '../search'
+import Search from '../Search'
 import { useNavigate } from 'react-router-dom';
 import plus from '../../assets/plus.svg'
 
