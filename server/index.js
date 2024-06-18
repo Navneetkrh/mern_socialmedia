@@ -11,7 +11,7 @@ const postRoutes = require("./Routes/postRoutes");
 const cloudinary = require("./Config/cloudinary.js");
 const expressAsyncHandler = require('express-async-handler');
 const bodyParser = require('body-parser');
-
+const {setupCronJob} = require("./forRefreshing.js");
 
 const app = express();
 // app.use(express.json());
@@ -34,6 +34,8 @@ const MONGO_URI = process.env.MONGO_URI;
 //     res.setHeader('Access-Control-Allow-Origin', '*');
 //     next();
 // });
+
+setupCronJob();
 
 
 const connectDb = async () => {
@@ -128,3 +130,4 @@ io.on("connection", (socket) => {
     );
 }
 );
+
