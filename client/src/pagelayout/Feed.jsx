@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { Sidebar } from "../components/Sidebar";
 import profile from "../assets/profile.jpeg"
 import Topbar from '../components/feed/Topbar';
-import Rightbar from '../components/feed/rightbar';
+import Rightbar from '../components/feed/Rightbar';
 
 import logo from "../assets/insidelogo.png";
-import Post from '../components/feed/post';
+import Post from '../components/feed/Post';
 import axios from 'axios';
 
 

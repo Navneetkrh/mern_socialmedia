@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Sidebar } from "../components/Sidebar";
 import profile from "../assets/profile.jpeg";
-import Search from '../components/search';
+import Search from '../components/Search';
 import { Chatdata } from '../components/chat/Chatsidebar';
 import { Chatsidebar } from '../components/chat/Chatsidebar';
 

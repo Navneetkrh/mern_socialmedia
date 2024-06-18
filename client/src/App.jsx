@@ -7,7 +7,7 @@ import profile from "./assets/profile.jpeg"
 import {Home} from "./pages/Home.jsx";
 import Loginsignup, {Login} from "./pages/Login.jsx";
 import {Logouthere} from "./components/profile/Logoutpop.jsx";
-import { Mainlayout } from './pagelayout/mainlayout';
+import { Mainlayout } from './pagelayout/Mainlayout';
 import { Feed } from './pagelayout/Feed'
 import { Chat} from './pagelayout/Chat';
 import { Createpost } from './components/feed/Createpost';
