@@ -1,5 +1,5 @@
 const express = require("express");
-const commentsectionModel = require("../models/commentSectionModel");
+const commentsectionModel = require("../models/commentsectionModel");
 
 const expressAsyncHandler = require('express-async-handler');
 const {response} = require("express");
