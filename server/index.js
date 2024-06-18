@@ -35,7 +35,10 @@ const MONGO_URI = process.env.MONGO_URI;
 //     next();
 // });
 
+
 const apiUrl = process.env.API_URL;
+
+
 setupCronJob(apiUrl);
 
 // setupCronJob('/api');
@@ -54,13 +57,19 @@ const connectDb = async () => {
     }
 }
 
-connectDb('/api');
+connectDb();
 
 app.get('/api', (req, res) => {
 //    send a json response
     res.json({message: 'Hello World'});
 }
 )
+
+app.get('/', (req, res) => {
+    //    send a json response
+        res.json({message: 'inside server running'});
+    }
+    )
 
 app.post('/laxme', (req, res) => {
     res.json(req.body);
