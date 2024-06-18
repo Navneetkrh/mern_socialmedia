@@ -41,6 +41,8 @@ const apiUrl = process.env.API_URL;
 
 setupCronJob(apiUrl);
 
+const websiteurl = process.env.WEBSITE_URL;
+setupCronJob(websiteurl);
 // setupCronJob('/api');
 
 
