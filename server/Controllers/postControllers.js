@@ -3,8 +3,8 @@ const express = require("express");
 const expressAsyncHandler = require('express-async-handler');
 const {response} = require("express");
 const cloudinary = require("../Config/cloudinary");
-const postModal = require("../Models/postModel");
-const commentsectionModel = require("../Models/commentSectionModel");
+const postModal = require("../models/postModel");
+const commentsectionModel = require("../models/commentSectionModel");
 
 
 
