@@ -7,7 +7,7 @@ const allMessages = expressAsyncHandler(async (req, res) => {
     try {
         const messages = await Message.find({ chat: req.params.chatId })
             .populate("sender", "name email")
-            .populate("reciever")
+            // .populate("reciever")
             .populate("chat");
         res.json(messages);
     } catch (error) {
@@ -36,7 +36,7 @@ const sendMessage = expressAsyncHandler(async (req, res) => {
         console.log(message);
         message = await message.populate("sender", "name pic");
         message = await message.populate("chat");
-        message = await message.populate("reciever");
+        // message = await message.populate("reciever");
         message = await User.populate(message, {
             path: "chat.users",
             select: "name email",

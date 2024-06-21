@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/*set global background to black*/
+body {
+  background-color: #1e1e1e;
+}
 /* add font family ubuntu */
 
 

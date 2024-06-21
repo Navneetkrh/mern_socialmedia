@@ -1,8 +1,10 @@
 const express= require('express');
 const Router = express.Router();
-const {loginController, registerController,fetchAllUsersController} = require("../Controllers/userController");
+const {loginController, registerController,fetchAllUsersController,logoutController ,deleteusercontroller} = require("../Controllers/userController");
 const {protect} = require("../middleware/authMiddleware");
 Router.post("/login",loginController);
 Router.post("/register",registerController);
 Router.get("/fetchUsers",protect,fetchAllUsersController);
+Router.post("/logout", protect ,logoutController);
+Router.delete("/deleteUser/:_id",protect,deleteusercontroller);
 module.exports = Router;
