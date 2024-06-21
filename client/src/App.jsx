@@ -8,6 +8,7 @@ import {Home} from "./pages/Home.jsx";
 import Loginsignup, {Login} from "./pages/Login.jsx";
 import { Mainlayout } from './pagelayout/mainlayout';
 import {RouterProvider,createBrowserRouter} from "react-router-dom";
+import { Forums } from './pages/Forums.jsx';
 function App() {
 let router = createBrowserRouter([
 
@@ -19,7 +20,10 @@ let router = createBrowserRouter([
     path: '/',
     element: <Mainlayout />,
   },
-  
+  {
+    path: 'Forums',
+    element: <Forums />,
+  },
   {
     path: '*',
     element: <><h1>Not found</h1></>,

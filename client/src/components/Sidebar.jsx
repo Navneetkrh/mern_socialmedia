@@ -1,3 +1,5 @@
+import React from "react";
+import {Link} from "react-router-dom";
 export function Sidebar(props) {
     return (
 
@@ -17,7 +19,7 @@ export function Sidebar(props) {
                     <li className={"hover:text-white"}>Events</li>
                     <li className={"hover:text-white"}>Chat Room</li>
                     <li className={"hover:text-white"}>Updates</li>
-                    <li className={"hover:text-white"}>Forums</li>
+                    <li className={"hover:text-white"} ><Link to = '/Forums'>Forums</Link></li>
                     <li className={"hover:text-white"}>Achievements</li>
 
                 </ul>
