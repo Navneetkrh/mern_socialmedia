@@ -12,9 +12,9 @@ const loginController=expressAsyncHandler(async (req,res)=>{
         if(user && (await user.matchPassword(password))){
             res.json({
                 _id:user._id,
-                name:user.name,
+                name:user.name,  
                 email:user.email,
-                profilePic:user.profilePic,
+                photo:user.photo,
                 isAdmin:user.isAdmin,
                 token: generateToken(user._id),
             });
@@ -26,7 +26,7 @@ const loginController=expressAsyncHandler(async (req,res)=>{
         }
 });
 const registerController=expressAsyncHandler (async (req,res)=>{
-    const {name,email,password,profilePic}=req.body;
+    const {name,email,password,photo}=req.body;
     //check if all fields are filled
     if(!name || !email || !password ){
         return res.status(400).json({message:"All fields are required"});
@@ -45,13 +45,13 @@ const registerController=expressAsyncHandler (async (req,res)=>{
 
     }
     //create user
-    const user = await UserModel.create({name,email,password,profilePic});
+    const user = await UserModel.create({name,email,password,photo});
     if(user){
         res.status(201).json({
             _id:user._id,
             name:user.name,
             email:user.email,
-            profilePic:user.profilePic,
+            photo:  user.photo,
             isAdmin:user.isAdmin,
             token: generateToken(user._id),
         });
@@ -66,6 +66,24 @@ const registerController=expressAsyncHandler (async (req,res)=>{
 
 }
 );
+
+
+const deleteusercontroller=expressAsyncHandler(async (req,res)=>{
+    const user = await UserModel.findByIdAndDelete(req.params._id);
+    if(user){
+        await user.remove();
+        res.json({message:"User removed"});
+    }
+    else{
+        res.status(404);
+        throw new Error("User not found");
+    }
+});
+
+const logoutController = expressAsyncHandler(async (req, res) => {
+    // Perform any necessary cleanup (if needed)
+    res.status(200).json({ message: "Logged out successfully" });
+});
 
 const fetchAllUsersController=expressAsyncHandler(async (req,res)=>{
     const keyword=req.query.search
@@ -84,4 +102,4 @@ const fetchAllUsersController=expressAsyncHandler(async (req,res)=>{
     res.send(users);
 }
 );
-module.exports={loginController,registerController,fetchAllUsersController};
+module.exports={loginController,registerController,fetchAllUsersController,logoutController , deleteusercontroller};

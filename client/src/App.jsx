@@ -6,7 +6,15 @@ import {Sidebar} from "./components/Sidebar.jsx";
 import profile from "./assets/profile.jpeg"
 import {Home} from "./pages/Home.jsx";
 import Loginsignup, {Login} from "./pages/Login.jsx";
-import { Mainlayout } from './pagelayout/mainlayout';
+import {Logouthere} from "./components/profile/Logoutpop.jsx";
+import { Mainlayout } from './pagelayout/Mainlayout';
+import { Feed } from './pagelayout/Feed'
+import { Chat} from './pagelayout/Chat';
+import { Createpost } from './components/feed/Createpost';
+import {PostOpen} from "./components/feed/PostOpen.jsx";
+import NotFoundPage from './pages/NotFoundPage';
+import { Filteredpost } from './components/profile/mypost.jsx';
+
 import {RouterProvider,createBrowserRouter} from "react-router-dom";
 function App() {
 let router = createBrowserRouter([
@@ -16,18 +24,45 @@ let router = createBrowserRouter([
     element: <Loginsignup />,
   },
   {
+    path : '/userpost',
+    element: <Filteredpost />,
+  },
+  {
     path: '/',
     element: <Mainlayout />,
   },
-  
+  {
+    path: '/feed',
+    element: <Feed refresh/>,
+  },
+  {
+    path: '/createpost',
+    element: <Createpost/>,
+
+  },
+  {
+    path: '/chat',
+    element: <Chat/>,
+
+  },
+  {
+    path: '/postopen',
+    element: <PostOpen/>,
+
+  },
+  {
+    path: '/logout',
+    element: <Logouthere />,
+  },
   {
     path: '*',
-    element: <><h1>Not found</h1></>,
+    element: <NotFoundPage />,
   },
 ])
 
   return (
-    <div>
+    
+    <div >
       <RouterProvider router={router} />
     </div>
   )

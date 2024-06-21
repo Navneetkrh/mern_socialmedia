@@ -14,11 +14,25 @@ const userModel=mongoose.Schema({
         type: String,
         required: true,
     },
-    profilePic : {
-        type: String,
-        default: "/images/profilePic.png",
-    },
+    photo: {
 
+        public_id: {
+
+            type: String,
+
+
+
+        },
+        url: {
+
+            type: String,
+
+
+
+        },
+
+
+    },
 
 
 }, {

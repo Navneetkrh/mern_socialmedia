@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 export default {
   content: [
     "./index.html",
@@ -15,9 +16,14 @@ export default {
           'bluish': '#45A29E',
           'pinkish': '#A24599',
           'lbluish': '#C2D9E3',
+          'bluechat' : '#94D0EA',
+          'graychat' : '#D3D3D3',
+          'blacka' : '#151618',
         }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+  ],
 }
 

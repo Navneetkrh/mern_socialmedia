@@ -1,12 +1,23 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const {default: mongoose} = require('mongoose');
-const userRoutes = require('./routes/userRoutes.js');
+const userRoutes = require('./Routes/userRoutes.js');
 const chatRoutes = require("./Routes/chatRoutes");
 const messageRoutes = require("./Routes/messageRoutes");
+const commentRoutes = require("./Routes/commentRoutes");
 const {notFound, errorHandler} = require("./middleware/errorMiddleware");
+const postRoutes = require("./Routes/postRoutes");
+// const uploadimage = require('./Config/uploadimage.js');
+const cloudinary = require("./Config/cloudinary.js");
+const expressAsyncHandler = require('express-async-handler');
+const bodyParser = require('body-parser');
+const setupCronJob = require('./forRefreshing.js');
+
 const app = express();
-app.use(express.json());
+// app.use(express.json());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+app.use(express.json({ limit: "50mb" }));
 dotenv.config();
 const cors = require('cors');
 app.use(
@@ -25,6 +36,16 @@ const MONGO_URI = process.env.MONGO_URI;
 // });
 
 
+const apiUrl = process.env.API_URL;
+
+
+setupCronJob(apiUrl);
+
+const websiteurl = process.env.WEBSITE_URL;
+setupCronJob(websiteurl);
+// setupCronJob('/api');
+
+
 const connectDb = async () => {
     try {
         await mongoose.connect(MONGO_URI, {
@@ -37,23 +58,51 @@ const connectDb = async () => {
         process.exit(1);
     }
 }
+
 connectDb();
 
-// app.get('/api', (req, res) => {
-// //    send a json response
-//     res.json({message: 'Hello World'});
-// }
-// );
+app.get('/api', (req, res) => {
+//    send a json response
+    res.json({message: 'Hello World'});
+}
+)
+
+app.get('/', (req, res) => {
+    //    send a json response
+        res.json({message: 'inside server running'});
+    }
+    )
 
 app.post('/laxme', (req, res) => {
     res.json(req.body);
 });
+app.post("/uploadimage", expressAsyncHandler(async(req, res) => {
+    const {photo} = req.body;
+    const result= await cloudinary.uploader.upload(photo,{
+        folder:"posts",
+        // width:500,
+        // crop:"scale"
+    });
+    console.log(result);
+    try{
+        res.json({public_id:result.public_id,
+            url:result.secure_url});
+    }
+    catch(error){
+        res.status(400).json({message:error.message});
 
+    }
+    // res.json({message:"hello",merbody:req.body});
+    
+    
+})
+);
 
 app.use("/user", userRoutes);
 app.use("/chat", chatRoutes);
 app.use("/message", messageRoutes);
-
+app.use("/feed", postRoutes);
+app.use("/comment", commentRoutes);
 // Error Handling middlewares
 app.use(notFound);
 app.use(errorHandler);
@@ -96,3 +145,4 @@ io.on("connection", (socket) => {
     );
 }
 );
+
