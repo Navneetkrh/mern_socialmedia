@@ -12,6 +12,8 @@ const cloudinary = require("./Config/cloudinary.js");
 const expressAsyncHandler = require('express-async-handler');
 const bodyParser = require('body-parser');
 const setupCronJob = require('./forRefreshing.js');
+const ForumRoute = require("./Routes/ForumRoute.js");
+
 
 const app = express();
 // app.use(express.json());
@@ -98,6 +100,7 @@ app.post("/uploadimage", expressAsyncHandler(async(req, res) => {
 })
 );
 
+app.use("/forum", ForumRoute);
 app.use("/user", userRoutes);
 app.use("/chat", chatRoutes);
 app.use("/message", messageRoutes);

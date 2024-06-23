@@ -19,6 +19,9 @@ export default {
           'bluechat' : '#94D0EA',
           'graychat' : '#D3D3D3',
           'blacka' : '#151618',
+        },
+        borderRadius: {
+          'default': '1rem',
         }
     },
   },

@@ -17,6 +17,7 @@ import { Filteredpost } from './components/profile/mypost.jsx';
 
 import {RouterProvider,createBrowserRouter} from "react-router-dom";
 import { Forums } from './pages/Forums.jsx';
+import { ForumPost } from './pages/ForumPost.jsx';
 function App() {
 let router = createBrowserRouter([
 
@@ -36,6 +37,9 @@ let router = createBrowserRouter([
     path: '/forums',
     element: <Forums />,
 
+   
+  },
+  {
     path: '/feed',
     element: <Feed refresh/>,
   },
@@ -63,6 +67,10 @@ let router = createBrowserRouter([
     path: '*',
     element: <NotFoundPage />,
   },
+  {
+    path : 'forumPost/:postId',
+    element: <ForumPost />,
+  }
 ])
 
   return (
